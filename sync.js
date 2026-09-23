@@ -116,7 +116,14 @@ async function logout() {
   st.last = 0; show();
 }
 
-window.orbitSync = { state: st, login, logout, now: sync, notify: schedule };
+// Re-confirm the signed-in Google account (used to reset a forgotten app PIN).
+async function reauth() {
+  if (!(await load()) || !auth.currentUser) return null;
+  try { const r = await A.reauthenticateWithPopup(auth.currentUser, new A.GoogleAuthProvider()); return r.user.email; }
+  catch (e) { setErr(msg(e)); return null; }
+}
+
+window.orbitSync = { state: st, login, logout, reauth, now: sync, notify: schedule };
 
 function start() { if (st.configured) load(); show(); }
 if (App()?.ready) start(); else window.addEventListener('orbit-ready', start, { once: true });

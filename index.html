@@ -397,7 +397,7 @@ nav.tabs button{position:relative;z-index:1;padding:7px 0 5px;border-radius:20px
 nav.tabs button span{transition:color .25s}
 nav.tabs button[aria-current="page"] svg{animation:hop .5s var(--spring)}
 @keyframes hop{0%{transform:translateY(0) scale(1)}40%{transform:translateY(-4px) scale(1.14)}100%{transform:none}}
-.app{padding-bottom:calc(118px + env(safe-area-inset-bottom,0px))}
+.app{padding-bottom:calc(160px + env(safe-area-inset-bottom,0px))}
 
 /* sheet: springy, draggable, blurred backdrop */
 .scrim{backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
@@ -409,7 +409,58 @@ nav.tabs button[aria-current="page"] svg{animation:hop .5s var(--spring)}
 /* toast */
 .toast{transition:opacity .25s,transform .45s var(--spring);transform:translate(-50%,16px) scale(.92);box-shadow:0 12px 30px -12px rgba(0,0,0,.45);bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .toast.show{transform:translate(-50%,0) scale(1)}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+/* quick add */
+.fab{position:fixed;z-index:25;right:max(16px,calc((100vw - 560px)/2 + 16px));bottom:calc(88px + env(safe-area-inset-bottom,0px));width:56px;height:56px;border-radius:19px;display:grid;place-items:center;color:var(--on-accent);background:linear-gradient(160deg,color-mix(in srgb,var(--accent) 80%,#fff),var(--accent));box-shadow:0 14px 30px -12px var(--accent),0 2px 6px rgba(0,0,0,.15);transition:transform .35s var(--spring),opacity .2s}
+.fab svg{width:26px;height:26px;transition:transform .35s var(--spring)}
+.fab:active{transform:scale(.9)}
+body.locked .fab,body:has(.sheet) .fab{transform:scale(.6);opacity:0;pointer-events:none}
+.qgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-bottom:6px}
+.qtile{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 6px 14px;border-radius:18px;background:var(--surface-2);border:1px solid var(--line);font-size:13px;font-weight:500;text-align:center;animation:rise .45s var(--ease) both}
+.qtile:nth-child(2){animation-delay:.03s}.qtile:nth-child(3){animation-delay:.06s}.qtile:nth-child(4){animation-delay:.09s}.qtile:nth-child(5){animation-delay:.12s}.qtile:nth-child(6){animation-delay:.15s}
+.qi{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}
+.qi svg{width:21px;height:21px}
+/* wallet search + filters */
+.wsearch{position:relative;margin-bottom:10px}
+.wsearch svg{position:absolute;left:13px;top:50%;width:17px;height:17px;transform:translateY(-50%);color:var(--ink-3);pointer-events:none}
+.wsearch .field{padding-left:38px}
+.fchips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.fchips::-webkit-scrollbar{display:none}
+.fchips button{flex:none;padding:7px 13px;border-radius:99px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);font-size:13px}
+.fchips button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+form[data-kind="tr"] .not-tr,form:not([data-kind="tr"]) .only-tr{display:none}
+select.field{min-height:46px;background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);background-position:calc(100% - 17px) 50%,calc(100% - 12px) 50%;background-size:5px 5px;background-repeat:no-repeat;padding-right:30px}
+/* six month chart */
+.t6{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;align-items:end}
+.t6 .c{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:var(--ink-3)}
+.t6 .c.cur{color:var(--ink);font-weight:600}
+.t6 .bars{height:96px;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:3px}
+.t6 .bars i{width:38%;max-width:14px;min-height:2px;border-radius:5px 5px 2px 2px;transform-origin:bottom}
+.t6 .bars .in{background:color-mix(in srgb,var(--good) 75%,var(--surface))}
+.t6 .bars .out{background:var(--accent)}
+.app.enter .t6 .bars i{animation:growY .8s var(--ease) both;animation-delay:.2s}
+.lg{display:inline-block;width:8px;height:8px;border-radius:3px;margin:0 3px 0 8px}
+.lg.in{background:var(--good)}.lg.out{background:var(--accent)}
+/* toast undo */
+.toast.act{pointer-events:auto;display:flex;align-items:center;gap:14px}
+.tundo{color:inherit;font-weight:600;text-decoration:underline;text-underline-offset:3px;padding:2px 0}
+/* lock screen */
+.lock{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:radial-gradient(700px 420px at 50% -120px,color-mix(in srgb,var(--accent) 22%,transparent),transparent 70%),var(--bg);opacity:0;transition:opacity .3s}
+.lock[hidden]{display:none}
+.lock.open{opacity:1}.lock.out{opacity:0;transform:scale(1.04);transition:opacity .35s,transform .35s var(--ease)}
+.lk-in{text-align:center;width:min(300px,86vw)}
+.lk-logo{width:58px;height:58px;border-radius:19px;margin:0 auto 14px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}
+.lk-logo svg{width:26px;height:26px}
+.lock h2{font-size:20px;font-weight:600;letter-spacing:-.02em}.lock p{color:var(--ink-3);font-size:13.5px;margin-top:2px}
+.lk-dots{display:flex;justify-content:center;gap:16px;margin:22px 0 26px}
+.lk-dots i{width:13px;height:13px;border-radius:50%;border:1.8px solid var(--ink-3);transition:background .15s,transform .25s var(--spring)}
+.lk-dots i.on{background:var(--accent);border-color:var(--accent);transform:scale(1.15)}
+.lk-dots.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}}
+.lk-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;justify-items:center}
+.lk-k{width:70px;height:70px;border-radius:50%;background:var(--surface);border:1px solid var(--line);font-size:25px;font-weight:500;box-shadow:var(--shadow)}
+.lk-t{font-size:13px;color:var(--ink-2);height:70px;background:none;border:0;box-shadow:none}
+.lk-k.lk-t{font-size:22px;background:none;border:0;box-shadow:none}
+*{transition:none!important;animation:none!important}}
 @media (max-width:370px){.app{padding-left:14px;padding-right:14px}.hero .wname{font-size:32px}.wq .nm{font-size:11px}.tri button{padding:6px 7px}}
 </style>
 </head>
@@ -417,6 +468,8 @@ nav.tabs button[aria-current="page"] svg{animation:hop .5s var(--spring)}
 <main id="main" class="app" aria-live="off"></main>
 <nav id="nav" class="tabs" aria-label="Sections"></nav>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
+<button id="fab" class="fab" data-a="quick" aria-label="Quick add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+<div id="lock" class="lock" hidden><div class="lk-in"><div class="lk-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></div><h2>Orbit is locked</h2><p>Enter your PIN</p><div class="lk-dots"><i></i><i></i><i></i><i></i></div><div class="lk-pad"></div></div></div>
 <script>
 'use strict';
 /* ================= constants ================= */
@@ -440,7 +493,7 @@ const today=()=>ymd(new Date());
 const daysBetween=(a,b)=>Math.round((parseYmd(b)-parseYmd(a))/864e5);
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 const sum=a=>a.reduce((x,y)=>x+(+y||0),0);
-const money=n=>(n<0?'−':'')+'৳'+Math.abs(Math.round(n)).toLocaleString('en-IN');
+const money=n=>(typeof S!=='undefined'&&S&&S.settings&&S.settings.hide)?'৳ ••••':(n<0?'−':'')+'৳'+Math.abs(Math.round(n)).toLocaleString('en-IN');
 const fmtDate=(s,o={day:'numeric',month:'short'})=>parseYmd(s).toLocaleDateString('en-GB',o);
 const fmtLong=s=>fmtDate(s,{day:'numeric',month:'short',year:'numeric'});
 const monthLabel=m=>{const[y,mo]=m.split('-').map(Number);return new Date(y,mo-1,1).toLocaleDateString('en-GB',{month:'long',year:'numeric'})};
@@ -460,7 +513,7 @@ const I={
  study:'<path d="M4 19.5V5.5A2.5 2.5 0 0 1 6.5 3H20v14H6.5A2.5 2.5 0 0 0 4 19.5a2.5 2.5 0 0 0 2.5 2.5H20v-5"/>',
  wallet:'<rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10.5h18M7 6V5a2 2 0 0 1 2-2h8"/><circle cx="16.5" cy="15" r=".6"/>',
  more:'<rect x="4" y="4" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="2"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="2"/>',
- plus:'<path d="M12 5v14M5 12h14"/>',swap:'<path d="M7 4 3.5 7.5 7 11M3.5 7.5H17M17 13l3.5 3.5L17 20M20.5 16.5H7"/>',check:'<path d="m5 12.5 4.5 4.5L19 7.5"/>',x:'<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',swap:'<path d="M7 4 3.5 7.5 7 11M3.5 7.5H17M17 13l3.5 3.5L17 20M20.5 16.5H7"/>',eye:'<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',eyeoff:'<path d="M3 3l18 18M10.6 5.6A9.6 9.6 0 0 1 12 5.5c6 0 9.5 6.5 9.5 6.5a17 17 0 0 1-3.2 4M6.6 6.6C4 8.4 2.5 12 2.5 12S6 18.5 12 18.5c1.8 0 3.4-.6 4.7-1.4M9.9 9.9a3 3 0 0 0 4.2 4.2"/>',lock:'<rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>',repeat:'<path d="M17 2.5l3 3-3 3M4 11.5v-1a5 5 0 0 1 5-5h11M7 21.5l-3-3 3-3M20 12.5v1a5 5 0 0 1-5 5H4"/>',drop:'<path d="M12 3.5s6 6.4 6 10.5a6 6 0 0 1-12 0c0-4.1 6-10.5 6-10.5z"/>',note:'<path d="M5 4.5h14v15H5z"/><path d="M8.5 9h7M8.5 12.5h7M8.5 16h4"/>',check:'<path d="m5 12.5 4.5 4.5L19 7.5"/>',x:'<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
  left:'<path d="m14.5 6-6 6 6 6"/>',right:'<path d="m9.5 6 6 6-6 6"/>',
  trash:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4.5A1.5 1.5 0 0 1 10.5 3h3A1.5 1.5 0 0 1 15 4.5V7"/>',
  gear:'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/>',
@@ -540,9 +593,9 @@ function seedStudy(){
 }
 function freshState(){return{
  v:1,created:today(),
- settings:{name:'',place:'Dhaka',lat:23.8103,lng:90.4125,asr:'hanafi',examDate:'',water:8,sleep:8,screen:4,theme:'auto',lastBackup:''},
+ settings:{name:'',place:'Dhaka',lat:23.8103,lng:90.4125,asr:'hanafi',examDate:'',water:8,sleep:8,screen:4,theme:'auto',lastBackup:'',hide:false,pinHash:'',notify:false},
  logs:[],tasks:[],salah:{},vitals:{},subjects:seedStudy(),sessions:[],timer:null,
- txns:[],accounts:{bank:{opening:null},bkash:{opening:null},cash:{opening:null},dps:{opening:null}},budgets:{},loans:[],moments:[],stories:[],assets:[]
+ txns:[],recurring:[],accounts:{bank:{opening:null},bkash:{opening:null},cash:{opening:null},dps:{opening:null}},budgets:{},loans:[],moments:[],stories:[],assets:[]
 }}
 function migrate(o){const f=freshState();for(const k in f)if(o[k]===undefined)o[k]=f[k];o.settings={...f.settings,...o.settings};o.accounts={...f.accounts,...o.accounts};return o}
 
@@ -617,21 +670,25 @@ function pulseHtml(){
  const t=today(),m=t.slice(0,7),mt=S.txns.filter(x=>x.date.startsWith(m));
  const out=sum(mt.filter(x=>x.type==='out').map(x=>x.amt)),inc=sum(mt.filter(x=>x.type==='in').map(x=>x.amt));
  const bud=sum(Object.values(S.budgets)),sp=studyProgress(),v=S.vitals[t]||{},g=S.settings;
+ const setA=ACCTS.filter(([k])=>accBal(k)!=null),tm={n:setA.length,v:sum(setA.map(([k])=>accBal(k)))},saved=sum(mt.filter(x=>x.type==='tr'&&x.to==='dps').map(x=>x.amt));
  const br=bud?out/bud:0;
  return `<section class="sec"><div class="pulse">
   <button data-a="tab" data-v="wallet"><span class="k">Spent in ${monthShort(m)}</span><span class="v">${money(out)}</span>${bud?`${bar(br,br>1?'bad':br>.8?'warn':'')}`:`<span class="s">${inc?`${money(inc-out)} left`:'Tap to add expenses'}</span>`}</button>
   <button data-a="tab" data-v="study"><span class="k">Syllabus</span><span class="v">${sp.pct}<small>%</small></span>${bar(sp.pct/100)}</button>
   <div><span class="k">Water</span><span class="v">${v.water||0}<small> / ${g.water}</small></span><button class="mini" data-a="waterAdd">Add a glass</button></div>
   <button data-a="gotoVitals"><span class="k">Sleep last night</span><span class="v">${v.sleep!=null?`${v.sleep}<small>h</small>`:'<small>Not logged</small>'}</span><span class="s">Goal ${g.sleep}h</span></button>
+  <button data-a="tab" data-v="wallet"><span class="k">Total money</span>${tm.n?`<span class="v">${money(tm.v)}</span><span class="s">${tm.n<4?`${tm.n} of 4 accounts`:'All accounts'}</span>`:`<span class="v"><small>Not set</small></span><span class="s">Add balances in Wallet</span>`}</button>
+  <button data-a="tab" data-v="wallet"><span class="k">Saved in ${monthShort(m)}</span><span class="v">${money(saved)}</span><span class="s">Into DPS / Savings</span></button>
  </div></section>`;
 }
 function attentionHtml(){
  const t=today(),items=[];
  S.loans.filter(l=>!l.closed&&l.due).forEach(l=>{const dd=daysBetween(t,l.due);if(dd<=3)items.push({c:dd<0?'bad':'warn',t:l.dir==='lent'?`${esc(l.person)} owes you ${money(rem(l))}`:`You owe ${esc(l.person)} ${money(rem(l))}`,s:dueText(l),a:'loanOpen',id:l.id})});
  S.assets.filter(a=>a.kind==='gadget'&&a.warranty).forEach(a=>{const dd=daysBetween(t,a.warranty);if(dd>=0&&dd<=30)items.push({c:'warn',t:`${esc(a.name)} warranty is ending`,s:dd?`In ${plural(dd,'day')}, on ${fmtLong(a.warranty)}`:'Ends today',a:'assetOpen',id:a.id})});
+ S.recurring.forEach(r=>{if(recDone(r))return;const due=recDue(r),dd=daysBetween(t,due);if(dd<=3)items.push({c:dd<0?'bad':'warn',t:`${esc(recLabel(r))} ${money(r.amt)}`,s:(dd<0?`Was due ${plural(-dd,'day')} ago`:dd===0?'Due today':`Due in ${plural(dd,'day')}`)+'. Tap to record it.',a:'recRecord',id:r.id})});
  const hasData=S.tasks.length+S.txns.length+S.logs.length+S.moments.length+S.stories.length+Object.keys(S.salah).length>0;
  const lb=S.settings.lastBackup;
- if(hasData&&(!lb||daysBetween(lb,t)>7))items.push({c:'soft',t:'Back up your data',s:lb?`Last backup on ${fmtLong(lb)}`:'No backup yet. It takes one tap.',a:'exportData'});
+ if(hasData&&!window.orbitSync?.state?.user&&(!lb||daysBetween(lb,t)>7))items.push({c:'soft',t:'Back up your data',s:lb?`Last backup on ${fmtLong(lb)}`:'No backup yet. It takes one tap.',a:'exportData'});
  if(new Date().getHours()>=20&&!S.tasks.some(x=>x.date===addDays(t,1)))items.push({c:'',t:'Plan tomorrow',s:'Two minutes tonight, a clear head tomorrow.',a:'gotoPlan'});
  if(!items.length)return'';
  return `<section class="sec"><div class="sec-h"><h2>Needs attention</h2></div><div class="list">${items.map(i=>`<button class="row" data-a="${i.a}"${i.id?` data-id="${i.id}"`:''}><span class="dot ${i.c}"></span><span class="grow"><span class="t">${i.t}</span><span class="s">${i.s}</span></span>${ic('right','chev')}</button>`).join('')}</div></section>`;
@@ -744,7 +801,7 @@ function paperHtml(s){
 function vWallet(){
  const tag={spend:'Know where it goes.',ledger:'Who owes what, and when.',report:'The month, in numbers.'}[U.walletSeg];
  const body={spend:spendHtml,ledger:ledgerHtml,report:reportHtml}[U.walletSeg]();
- return head('Wallet',tag)+segc('walletSeg',[['spend','Spend'],['ledger','Ledger'],['report','Report']])+body;
+ return head('Wallet',tag,`<button class="ibtn" data-a="hideToggle" aria-label="${S.settings.hide?'Show amounts':'Hide amounts'}">${ic(S.settings.hide?'eyeoff':'eye')}</button>`)+segc('walletSeg',[['spend','Spend'],['ledger','Ledger'],['report','Report']])+body;
 }
 const monthTx=m=>S.txns.filter(x=>x.date.startsWith(m));
 /* accounts: City Bank, bKash, Cash, DPS are one system. Transfers move money between them and never count as income or expense. */
@@ -764,6 +821,20 @@ function accountsHtml(){
  <div class="row" style="background:var(--surface-2)"><span class="grow"><span class="t">Total money</span><span class="s">${unset.length?`Not counting ${unset.join(', ')}`:'All accounts'}</span></span><span class="amt">${money(tot)}</span></div></div>
  ${loose?`<p class="small muted" style="margin:8px 4px 0">${plural(loose,'entry')} without an account ${loose>1?'are':'is'} left out of balances.</p>`:''}</section>`;
 }
+function txFilter(x){
+ const f=U.wacc||'all',q=(U.wq||'').trim().toLowerCase();
+ if(f==='tr'&&x.type!=='tr')return false;
+ if(f!=='all'&&f!=='tr'&&!(x.acc===f||x.from===f||x.to===f))return false;
+ if(q&&![x.note,x.cat,String(x.amt),accName(x.acc),accName(x.from),accName(x.to)].join(' ').toLowerCase().includes(q))return false;
+ return true;
+}
+function txListHtml(all){
+ const list=all.filter(txFilter).sort((a,b)=>b.date.localeCompare(a.date)||b.ts-a.ts),on=(U.wacc&&U.wacc!=='all')||(U.wq||'').trim();
+ if(!list.length)return `<p class="empty">${on?'Nothing matches.':`No entries in ${monthShort(U.month)}. Tap + to add one.`}</p>`;
+ const byDay={};list.forEach(x=>(byDay[x.date]=byDay[x.date]||[]).push(x));
+ const head=on?`<p class="small muted" style="margin:10px 4px 0">${plural(list.length,'entry')} · in ${money(sum(list.filter(x=>x.type==='in').map(x=>x.amt)))} · out ${money(sum(list.filter(x=>x.type==='out').map(x=>x.amt)))}</p>`:'';
+ return head+Object.entries(byDay).map(([d,xs])=>`<div class="dayhead"><span>${dayLabel(d)}</span><span>${money(sum(xs.filter(x=>x.type==='out').map(x=>x.amt)))}</span></div><div class="list">${xs.map(txnRow).join('')}</div>`).join('');
+}
 function txnRow(x){
  if(x.type==='tr')return `<button class="row" data-a="txnEdit" data-id="${x.id}"><span class="mi2">${ic('swap')}</span><span class="grow"><span class="t">${esc(x.note||trLabel(x))}</span><span class="s">${trKind(x)}${x.note?` · ${trLabel(x)}`:''}</span></span><span class="amt tr">${money(x.amt)}</span></button>`;
  return `<button class="row" data-a="txnEdit" data-id="${x.id}"><span class="grow"><span class="t">${esc(x.note||x.cat)}</span><span class="s">${esc(x.note?x.cat:'')}${x.acc?`${x.note?' · ':''}${accName(x.acc)}`:''}</span></span><span class="amt ${x.type==='in'?'pos':''}">${x.type==='in'?'+':''}${money(x.amt)}</span></button>`;
@@ -775,7 +846,11 @@ function spendHtml(){
  return monthNav()+`<div class="sum3"><div><div class="k">In</div><div class="v">${money(inc)}</div></div><div><div class="k">Out</div><div class="v">${money(out)}</div></div><div><div class="k">Left</div><div class="v">${money(inc-out)}</div></div></div>
  <div class="btnrow"><button class="btn" data-a="txnNew" data-t="out">${ic('plus')}Expense</button><button class="btn ghost" data-a="txnNew" data-t="in">${ic('plus')}Income</button><button class="btn ghost" data-a="txnNew" data-t="tr">${ic('swap')}Transfer</button></div>
  ${accountsHtml()}
- ${Object.keys(byDay).length?Object.entries(byDay).map(([d,xs])=>`<div class="dayhead"><span>${dayLabel(d)}</span><span>${money(sum(xs.filter(x=>x.type==='out').map(x=>x.amt)))}</span></div><div class="list">${xs.map(txnRow).join('')}</div>`).join(''):`<p class="empty">No entries in ${monthShort(U.month)}. Add your first expense.</p>`}`;
+ ${recurringHtml()}
+ <section class="sec"><div class="sec-h"><h2>Entries</h2></div>
+ <div class="wsearch">${ic('search')}<input class="field" type="search" data-input="walletSearch" value="${esc(U.wq||'')}" placeholder="Search notes, categories, amounts" aria-label="Search entries"></div>
+ <div class="fchips">${[['all','All'],...ACCTS.filter(a=>a[0]!=='dps'),['tr','Transfers']].map(([v,n])=>`<button data-a="wf" data-v="${v}" aria-pressed="${(U.wacc||'all')===v}">${n}</button>`).join('')}</div>
+ <div id="txList">${txListHtml(list)}</div></section>`;
 }
 const rem=l=>Math.max(0,l.amt-sum((l.paid||[]).map(p=>p.amt)));
 function dueText(l){if(!l.due)return'No due date';const dd=daysBetween(today(),l.due);return dd<0?`Overdue by ${plural(-dd,'day')}`:dd===0?'Due today':`Due in ${plural(dd,'day')}`}
@@ -809,10 +884,14 @@ function reportHtml(){
  if(sav)ins.push({c:'good',t:`You put ${money(sav)} into savings. It is not counted as spending.`});
  if(mv)ins.push({t:`${money(mv)} moved between your own accounts. Not counted as income or spending.`});
  const max=sorted.length?sorted[0][1]:1;
+ const months=[5,4,3,2,1,0].map(i=>shiftMonth(m,-i)),mo=months.map(k=>{const l=monthTx(k);return{k,i:sum(l.filter(x=>x.type==='in').map(x=>x.amt)),o:sum(l.filter(x=>x.type==='out').map(x=>x.amt))}}),mx=Math.max(1,...mo.map(x=>Math.max(x.i,x.o)));
+ const trend=`<section class="sec"><div class="sec-h"><h2>Six months</h2><span class="aside"><i class="lg in"></i>In <i class="lg out"></i>Out</span></div><div class="panel"><div class="t6">${mo.map(x=>`<div class="c${x.k===m?' cur':''}"><div class="bars"><i class="in" style="height:${x.i/mx*100}%"></i><i class="out" style="height:${x.o/mx*100}%"></i></div><span>${monthShort(x.k)}</span></div>`).join('')}</div></div></section>`;
  return monthNav()+`<div class="sum3"><div><div class="k">In</div><div class="v">${money(inc)}</div></div><div><div class="k">Out</div><div class="v">${money(out)}</div></div><div><div class="k">Net</div><div class="v">${money(inc-out)}</div></div></div>
  ${ins.length?`<section class="sec"><div class="sec-h"><h2>What stands out</h2></div><div class="insights">${ins.map(i=>`<p class="${i.c||''}">${i.t}</p>`).join('')}</div></section>`:`<p class="empty">No expenses in ${monthShort(m)} yet.</p>`}
  <section class="sec"><div class="sec-h"><h2>By category</h2><button class="link" data-a="budgetEdit">Set limits</button></div>
- ${sorted.length?`<div class="list">${sorted.map(([c,v])=>{const lim=S.budgets[c];const r=lim?v/lim:v/max;return `<div class="cat"><div class="top"><span>${esc(c)}</span><span>${money(v)}</span></div>${bar(r,lim?(r>1?'bad':r>=.8?'warn':''):'')}${lim?`<div class="lim">${Math.round(v/lim*100)}% of ${money(lim)} limit</div>`:''}</div>`}).join('')}</div>`:`<p class="empty">Categories show up once you add expenses.</p>`}</section>`;
+ ${sorted.length?`<div class="list">${sorted.map(([c,v])=>{const lim=S.budgets[c];const r=lim?v/lim:v/max;return `<div class="cat"><div class="top"><span>${esc(c)}</span><span>${money(v)}</span></div>${bar(r,lim?(r>1?'bad':r>=.8?'warn':''):'')}${lim?`<div class="lim">${Math.round(v/lim*100)}% of ${money(lim)} limit</div>`:''}</div>`}).join('')}</div>`:`<p class="empty">Categories show up once you add expenses.</p>`}</section>
+ ${trend}
+ <section class="sec"><button class="btn ghost block" data-a="csv">${ic('download')}Export ${monthShort(m)} as CSV</button></section>`;
 }
 
 /* ---------- MORE ---------- */
@@ -881,6 +960,8 @@ function vSettings(){
   <button class="btn block">Save settings</button>
  </form>
  <section class="sec"><div class="sec-h"><h2>Appearance</h2></div>${segcTheme()}</section>
+ <section class="sec"><div class="sec-h"><h2>App lock</h2><span class="aside">${s.pinHash?'On':'Off'}</span></div><div class="panel"><p class="small" style="color:var(--ink-2);line-height:1.6">${s.pinHash?'Orbit asks for your PIN when it opens and after a minute away.':'Keep your money and journal private with a 4-digit PIN.'}</p><div class="btnrow"><button class="btn${s.pinHash?' ghost':''}" data-a="pinSet">${ic('lock')}${s.pinHash?'Change PIN':'Set a PIN'}</button>${s.pinHash?'<button class="btn danger" data-a="pinOff">Turn off</button>':''}</div></div></section>
+ <section class="sec"><div class="sec-h"><h2>Reminders</h2><span class="aside">${s.notify?'On':'Off'}</span></div><div class="panel"><p class="small" style="color:var(--ink-2);line-height:1.6">A nudge 15 minutes before a waqt ends if it is not marked, plus loans and monthly items due today. Works while Orbit is open or recently used; your phone may pause it in the background.</p><div class="btnrow"><button class="btn${s.notify?' ghost':''}" data-a="notifyToggle">${ic('bell')}${s.notify?'Turn off':'Turn on'}</button></div></div></section>
  <section class="sec"><div class="sec-h"><h2>Cloud sync</h2></div><div class="panel" id="syncBox">${syncHtml()}</div></section>
  <section class="sec"><div class="sec-h"><h2>Backup</h2><span class="aside">${s.lastBackup?`Last on ${fmtLong(s.lastBackup)}`:'Never backed up'}</span></div>
   <div class="panel"><p class="small" style="color:var(--ink-2);line-height:1.6">Clearing your browser or changing phones erases everything here. Export a backup every week and keep it in Google Drive.</p>
@@ -903,6 +984,48 @@ function openSheet(title,html,focusSel){
 function closeSheet(now){document.querySelectorAll('.sheet,.scrim').forEach(el=>{if(now)el.remove();else{el.classList.remove('open');setTimeout(()=>el.remove(),280)}})}
 const sheetOpen=()=>!!$('.sheet');
 const chipsHtml=(name,opts,cur)=>`<div class="chips">${opts.map(o=>{const[v,n]=Array.isArray(o)?o:[o,o];return `<label><input type="radio" name="${name}" value="${esc(v)}" ${v===cur?'checked':''}><span>${esc(n)}</span></label>`}).join('')}</div>`;
+/* monthly items: DPS installment, allowance, recharge packs */
+const recLabel=r=>r.note||(r.type==='tr'?`${accName(r.from)} → ${accName(r.to)}`:r.cat);
+const ord=n=>n+(['th','st','nd','rd'][(n%100-20)%10]||['th','st','nd','rd'][n%100]||'th');
+function recDue(r,m=today().slice(0,7)){return `${m}-${String(Math.min(r.day,daysInMonth(m))).padStart(2,'0')}`}
+const recDone=(r,m=today().slice(0,7))=>S.txns.some(x=>x.rid===r.id&&x.date.startsWith(m));
+function recToTxn(r){const o={id:uid(),type:r.type,amt:r.amt,cat:r.type==='tr'?'Transfer':r.cat,note:r.note||'',date:today(),ts:Date.now(),rid:r.id};if(r.type==='tr'){o.from=r.from;o.to=r.to}else if(r.acc)o.acc=r.acc;return o}
+function recSheet(r){
+ const sel=(name,opts,cur)=>`<select class="field" name="${name}">${opts.map(([v,n])=>`<option value="${v}" ${v===cur?'selected':''}>${n}</option>`).join('')}</select>`;
+ const kind=r?.type||'out';
+ openSheet(r?'Edit monthly item':'New monthly item',`<form class="form" data-form="rec" data-kind="${kind}"><input type="hidden" name="id" value="${r?.id||''}">
+ <p class="small muted" style="margin-top:-6px">Orbit reminds you a few days before and records it with one tap.</p>
+ <div><span class="lbl">Kind</span><select class="field" name="type" data-change="recKind">${[['out','Expense'],['in','Income'],['tr','Transfer or savings']].map(([v,n])=>`<option value="${v}" ${v===kind?'selected':''}>${n}</option>`).join('')}</select></div>
+ <label><span class="lbl">Amount, in taka</span><input class="field" name="amt" type="number" inputmode="decimal" step="any" min="0" value="${r?.amt??''}" placeholder="0" style="font-size:20px;font-weight:600"></label>
+ <label><span class="lbl">Name</span><input class="field" name="note" value="${esc(r?.note||'')}" placeholder="Like DPS installment" autocomplete="off"></label>
+ <div class="two only-tr"><label><span class="lbl">From</span>${sel('from',ACCTS,r?.from||'bank')}</label><label><span class="lbl">To</span>${sel('to',ACCTS,r?.to||'dps')}</label></div>
+ <div class="two not-tr"><label><span class="lbl">Category</span><select class="field" name="cat"><optgroup label="Expense">${EXP_CATS.map(c=>`<option ${c===r?.cat?'selected':''}>${c}</option>`).join('')}</optgroup><optgroup label="Income">${INC_CATS.map(c=>`<option value="${c}" ${c===r?.cat&&r?.type==='in'?'selected':''}>${c}</option>`).join('')}</optgroup></select></label><label><span class="lbl">Account</span>${sel('acc',ACCTS.filter(a=>a[0]!=='dps'),r?.acc||'bank')}</label></div>
+ <label><span class="lbl">Day of the month</span><input class="field" name="day" type="number" inputmode="numeric" min="1" max="31" value="${r?.day||1}"></label>
+ <button class="btn block">${r?'Save changes':'Add monthly item'}</button>
+ ${r?`<button type="button" class="btn danger block" data-a="recDel" data-id="${r.id}">Remove</button>`:''}</form>`,r?null:'input[name=amt]');
+}
+function recurringHtml(){
+ const m=today().slice(0,7);
+ return `<section class="sec"><div class="sec-h"><h2>Every month</h2><button class="link" data-a="recNew">Add</button></div>
+ ${S.recurring.length?`<div class="list">${S.recurring.slice().sort((a,b)=>a.day-b.day).map(r=>{const done=recDone(r,m);return `<button class="row" data-a="recEdit" data-id="${r.id}"><span class="mi2">${ic('repeat')}</span><span class="grow"><span class="t">${esc(recLabel(r))}</span><span class="s">${ord(r.day)} of each month · ${r.type==='tr'?`${accName(r.from)} → ${accName(r.to)}`:accName(r.acc)}${done?' · done this month':''}</span></span><span class="amt ${r.type==='in'?'pos':r.type==='tr'?'tr':''}">${money(r.amt)}</span></button>`}).join('')}</div>`:`<p class="small muted" style="margin:0 4px">Add things that repeat, like your DPS installment, and Orbit will remind you.</p>`}</section>`;
+}
+function quickSheet(){
+ const T=[['out','Expense','wallet'],['in','Income','plus'],['tr','Transfer','swap'],['task','Task','check'],['moment','Moment','moment'],['water','Glass of water','drop']];
+ openSheet('Quick add',`<div class="qgrid">${T.map(([v,n,i])=>`<button class="qtile" data-a="qGo" data-v="${v}"><span class="qi">${ic(i)}</span><span>${n}</span></button>`).join('')}</div>`);
+}
+function qTaskSheet(){
+ openSheet('New task',`<form class="form" data-form="qtask"><label><span class="lbl">Task</span><input class="field" name="text" placeholder="What needs doing?" autocomplete="off"></label>
+ <div><span class="lbl">When</span>${chipsHtml('when',[['today','Today'],['tomorrow','Tomorrow']],'today')}</div><button class="btn block">Add task</button></form>`,'input[name=text]');
+}
+function qMomentSheet(){
+ openSheet('Keep a moment',`<form class="form" data-form="qmoment"><textarea class="field" name="text" rows="3" placeholder="What stood out today?" aria-label="Moment"></textarea><input type="hidden" name="date" value="${today()}"><button class="btn block">Keep</button></form>`,'textarea');
+}
+function pinSheet(mode){
+ const f=mode==='set'?`<label><span class="lbl">New 4-digit PIN</span><input class="field pinin" name="p1" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off"></label><label><span class="lbl">Type it again</span><input class="field pinin" name="p2" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off"></label><p class="small muted" style="line-height:1.6">Orbit asks for this PIN when it opens and after a minute away. It is the same on all your signed-in devices. It hides the app from others; it does not encrypt your data.</p><button class="btn block">Save PIN</button>`
+  :`<label><span class="lbl">Current PIN</span><input class="field pinin" name="p1" type="password" inputmode="numeric" maxlength="4" autocomplete="off"></label><button class="btn danger block">Turn off app lock</button>`;
+ openSheet(mode==='set'?(S.settings.pinHash?'Change PIN':'Set a PIN'):'Turn off app lock',`<form class="form" data-form="pin" data-mode="${mode}">${f}</form>`,'input[name=p1]');
+}
+async function pinHash(p){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('orbit-pin:'+p));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
 function trSheet(x){
  const def=S.settings.lastTr||{from:'bkash',to:'bank'};
  openSheet(`${x?'Edit':'New'} transfer`,`<form class="form" data-form="txn"><input type="hidden" name="id" value="${x?.id||''}"><input type="hidden" name="type" value="tr">
@@ -1004,7 +1127,9 @@ function buildIcs(o){
 function download(name,text,type){const b=new Blob([text],{type}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)}
 
 /* ================= actions ================= */
-function toast(m){FX.buzz(6);const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),2000)}
+let UNDO=null;
+function toast(m,undo){FX.buzz(6);const t=$('#toast');t.innerHTML=esc(m)+(undo?'<button class="tundo" data-a="undo">Undo</button>':'');UNDO=undo||null;t.classList.toggle('act',!!undo);t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>{t.classList.remove('show','act');UNDO=null},undo?5000:2000)}
+function undoable(msg,fn){const snap=JSON.stringify(S);fn();commit();toast(msg,()=>{S=migrate(JSON.parse(snap));applyTheme();commit();toast('Restored.')})}
 const go=(tab,extra={})=>{closeSheet(true);Object.assign(U,{tab},extra);render();scrollTo(0,0)};
 const findS=(sid,cid)=>{const s=S.subjects.find(x=>x.id===sid);return[s,s&&cid?s.chapters.find(c=>c.id===cid):null]};
 const A={
@@ -1022,10 +1147,10 @@ const A={
  gotoPlan(){go('day',{daySeg:'plan'})},
  gotoVitals(){go('day',{daySeg:'vitals',date:today()})},
  taskToggle(d){const x=S.tasks.find(t=>t.id===d.id);if(x){x.done=!x.done;commit()}},
- taskDel(d){S.tasks=S.tasks.filter(t=>t.id!==d.id);commit()},
+ taskDel(d){undoable('Task removed.',()=>{S.tasks=S.tasks.filter(t=>t.id!==d.id)})},
  taskMove(d){const x=S.tasks.find(t=>t.id===d.id);if(x){x.date=d.to;commit();toast(d.to===today()?'Moved to today.':'Moved to tomorrow.')}},
  carryAll(){const t=today();S.tasks.forEach(x=>{if(!x.done&&x.date<t)x.date=t});commit();toast('Moved to today.')},
- logDel(d){S.logs=S.logs.filter(x=>x.id!==d.id);commit()},
+ logDel(d){undoable('Removed.',()=>{S.logs=S.logs.filter(x=>x.id!==d.id)})},
  salCycle(d){const o=['','on','qaza','miss'],nx=o[(o.indexOf(salGet(d.d,d.k))+1)%4];salSet(d.d,d.k,nx);commit();toast(`${WN[d.k]}: ${SALST[nx]||'not marked'}`)},
  salSet(d){salSet(d.d,d.k,salGet(d.d,d.k)===d.v?'':d.v);commit()},
  vit(d){const v=S.vitals[U.date]||(S.vitals[U.date]={});if(v[d.f]==null)v[d.f]=d.f==='sleep'?7:3;else v[d.f]=clamp(+(v[d.f]+ +d.n).toFixed(1),0,24);commit()},
@@ -1042,24 +1167,39 @@ const A={
  timerStop(){const t=S.timer;if(!t)return;const m=Math.round((Date.now()-t.start)/60000);S.timer=null;if(m>=1){S.sessions.push({id:uid(),date:today(),sid:t.sid,min:m});toast(`${fmtMin(m)} logged.`)}else toast('Under a minute, so it was not logged.');commit()},
  txnNew(d){txnSheet(d.t)},
  txnEdit(d){const x=S.txns.find(t=>t.id===d.id);if(x)txnSheet(x.type,x)},
- txnDel(d){if(!confirm('Delete this entry?'))return;S.txns=S.txns.filter(x=>x.id!==d.id);closeSheet();commit();toast('Entry deleted.')},
+ txnDel(d){closeSheet();undoable('Entry deleted.',()=>{S.txns=S.txns.filter(x=>x.id!==d.id)})},
  loanNew(){loanSheet()},
  loanOpen(d){loanDetail(d.id)},
  loanEdit(d){loanSheet(S.loans.find(x=>x.id===d.id))},
  loanSettle(d){const l=S.loans.find(x=>x.id===d.id);if(!l)return;l.closed=!l.closed;closeSheet();commit();toast(l.closed?'Marked settled.':'Reopened.')},
- loanDel(d){if(!confirm('Delete this ledger entry?'))return;S.loans=S.loans.filter(x=>x.id!==d.id);closeSheet();commit();toast('Entry deleted.')},
+ loanDel(d){closeSheet();undoable('Entry deleted.',()=>{S.loans=S.loans.filter(x=>x.id!==d.id)})},
  budgetEdit(){budgetSheet()},
+ undo(){const f=UNDO;UNDO=null;$('#toast').classList.remove('show','act');f&&f()},
+ quick(){quickSheet()},
+ qGo(d){const v=d.v;if(v==='out'||v==='in'||v==='tr')return txnSheet(v);if(v==='task')return qTaskSheet();if(v==='moment')return qMomentSheet();if(v==='water'){closeSheet();A.waterAdd()}},
+ hideToggle(){S.settings.hide=!S.settings.hide;commit()},
+ wf(d){U.wacc=d.v;render()},
+ recNew(){recSheet()},
+ recEdit(d){recSheet(S.recurring.find(r=>r.id===d.id))},
+ recDel(d){closeSheet();undoable('Monthly item removed.',()=>{S.recurring=S.recurring.filter(r=>r.id!==d.id)})},
+ recRecord(d){const r=S.recurring.find(x=>x.id===d.id);if(!r)return;undoable(`${recLabel(r)} recorded.`,()=>{S.txns.push(recToTxn(r))})},
+ csv(){const rows=[['Date','Type','Amount','Category','Account','From','To','Note']].concat(monthTx(U.month).sort((a,b)=>a.date.localeCompare(b.date)).map(x=>[x.date,{in:'Income',out:'Expense',tr:x.to==='dps'?'Savings':'Transfer'}[x.type],x.amt,x.cat||'',accName(x.acc)||'',accName(x.from)||'',accName(x.to)||'',x.note||'']));download(`orbit-${U.month}.csv`,'\ufeff'+rows.map(r=>r.map(c=>/[",\n]/.test(String(c))?`"${String(c).replace(/"/g,'""')}"`:c).join(',')).join('\n'),'text/csv');toast('CSV downloaded.')},
+ pinSet(){pinSheet('set')},
+ pinOff(){pinSheet('off')},
+ notifyToggle(){if(S.settings.notify){S.settings.notify=false;commit();return toast('Reminders off on this device.')}if(!('Notification' in window))return toast('This browser cannot show notifications.');Notification.requestPermission().then(p=>{if(p==='granted'){S.settings.notify=true;commit();toast('Reminders on.');NOTIFY.check()}else toast('Notifications are blocked in browser settings.')})},
+ lockKey(d){LOCK.key(d.v)},
+ lockForgot(){LOCK.forgot()},
  accEdit(d){accSheet(d.k)},
  accClear(d){if(!confirm('Clear this balance?'))return;S.accounts[d.k]={opening:null};closeSheet();commit();toast('Balance cleared.')},
  more(d){U.more=d.v||null;U.q='';render();scrollTo(0,0)},
- momentDel(d){if(!confirm('Remove this moment?'))return;S.moments=S.moments.filter(x=>x.id!==d.id);commit()},
+ momentDel(d){undoable('Moment removed.',()=>{S.moments=S.moments.filter(x=>x.id!==d.id)})},
  storyNew(){storySheet()},
  storyOpen(d){storyView(d.id)},
  storyEdit(d){storySheet(S.stories.find(x=>x.id===d.id))},
- storyDel(d){if(!confirm('Delete this story? This cannot be undone.'))return;S.stories=S.stories.filter(x=>x.id!==d.id);closeSheet();commit();toast('Story deleted.')},
+ storyDel(d){closeSheet();undoable('Story deleted.',()=>{S.stories=S.stories.filter(x=>x.id!==d.id)})},
  assetNew(d){assetSheet(d.k)},
  assetOpen(d){const x=S.assets.find(a=>a.id===d.id);if(x)assetSheet(x.kind,x)},
- assetDel(d){if(!confirm('Delete this item?'))return;S.assets=S.assets.filter(x=>x.id!==d.id);closeSheet();commit();toast('Deleted.')},
+ assetDel(d){closeSheet();undoable('Deleted.',()=>{S.assets=S.assets.filter(x=>x.id!==d.id)})},
  theme(d){S.settings.theme=d.v;applyTheme();commit()},
  locate(){if(!navigator.geolocation)return toast('Location is not available on this device.');toast('Finding your location…');navigator.geolocation.getCurrentPosition(p=>{const f=$('form[data-form=settings]');if(!f)return;f.lat.value=p.coords.latitude.toFixed(4);f.lng.value=p.coords.longitude.toFixed(4);f.place.value='Current location';toast('Location filled in. Save settings to apply.')},()=>toast('Location permission was denied.'),{timeout:12000})},
  exportData(){S.settings.lastBackup=today();download(`orbit-backup-${today()}.json`,JSON.stringify(S,null,1),'application/json');commit();toast('Backup downloaded.')},
@@ -1069,6 +1209,10 @@ const F={
  task(d,f){const text=(d.text||'').trim();if(!text)return;S.tasks.push({id:uid(),date:f.dataset.date,text,done:false,ts:Date.now()});commit();refocus(`form[data-form=task][data-date="${f.dataset.date}"] input`)},
  log(d){const text=(d.text||'').trim();if(!text)return;S.logs.push({id:uid(),date:U.date,time:d.time||'12:00',text});commit();refocus('form[data-form=log] input[name=text]')},
  moment(d){const text=(d.text||'').trim();if(!text)return;S.moments.push({id:uid(),date:d.date||today(),text,ts:Date.now()});commit();toast('Kept.')},
+ qtask(d){const text=(d.text||'').trim();if(!text)return toast('Type the task first.');const date=d.when==='tomorrow'?addDays(today(),1):today();S.tasks.push({id:uid(),date,text,done:false,ts:Date.now()});closeSheet();commit();toast(d.when==='tomorrow'?'Added for tomorrow.':'Added for today.')},
+ qmoment(d,f){const text=(d.text||'').trim();if(!text)return;S.moments.push({id:uid(),date:d.date||today(),text,ts:Date.now()});closeSheet();commit();toast('Kept.')},
+ rec(d){const amt=Math.round(parseFloat(d.amt)),day=clamp(parseInt(d.day)||1,1,31);if(!(amt>0))return toast('Enter an amount above zero.');if(d.type==='tr'&&d.from===d.to)return toast('Pick two different accounts.');const o={id:d.id||uid(),type:d.type,amt,day,note:(d.note||'').trim()};if(d.type==='tr'){o.from=d.from;o.to=d.to}else{o.cat=d.cat;o.acc=d.acc;if(d.type==='in'&&!INC_CATS.includes(o.cat))o.cat='Other';if(d.type==='out'&&!EXP_CATS.includes(o.cat))o.cat='Other'}const i=S.recurring.findIndex(r=>r.id===o.id);if(i>=0)S.recurring[i]=o;else S.recurring.push(o);closeSheet();commit();toast(d.id?'Saved.':'Monthly item added.')},
+ pin(d,f){const mode=f.dataset.mode;(async()=>{if(mode==='set'){if(!/^\d{4}$/.test(d.p1||''))return toast('Use exactly 4 digits.');if(d.p1!==d.p2)return toast('The two PINs do not match.');S.settings.pinHash=await pinHash(d.p1);closeSheet();commit();toast('App lock is on.')}else{if(await pinHash(d.p1||'')!==S.settings.pinHash){FX.buzz(30);return toast('Wrong PIN.')}S.settings.pinHash='';closeSheet();commit();toast('App lock is off.')}})()},
  acc(d){const v=Math.round(parseFloat(d.bal));if(!Number.isFinite(v))return toast('Enter a number.');S.accounts[d.k]={opening:v-accMove(d.k)};closeSheet();commit();toast('Balance saved.')},
  txn(d){const amt=Math.round(parseFloat(d.amt));if(!(amt>0))return toast('Enter an amount above zero.');const o={id:d.id||uid(),type:d.type,amt,cat:d.type==='tr'?'Transfer':(d.cat||'Other'),note:(d.note||'').trim(),date:d.date||today(),ts:Date.now()};if(d.type==='tr'){if(d.from===d.to)return toast('Pick two different accounts.');o.from=d.from;o.to=d.to;S.settings.lastTr={from:d.from,to:d.to}}else if(d.acc){o.acc=d.acc;S.settings.lastAcc=d.acc}const i=S.txns.findIndex(x=>x.id===d.id);if(i>=0){o.ts=S.txns[i].ts;S.txns[i]=o}else S.txns.push(o);closeSheet();commit();toast(d.id?'Changes saved.':d.type==='in'?'Income added.':d.type==='tr'?'Transfer added.':'Expense added.')},
  loan(d){const amt=parseFloat(d.amt),person=(d.person||'').trim();if(!person)return toast('Add the person\'s name.');if(!(amt>0))return toast('Enter an amount above zero.');const ex=S.loans.find(x=>x.id===d.id),o={dir:d.dir,person,amt,date:d.date||today(),due:d.due||'',note:(d.note||'').trim()};if(ex)Object.assign(ex,o);else S.loans.push({id:uid(),...o,paid:[],closed:false});closeSheet();commit();toast(ex?'Changes saved.':'Entry saved.')},
@@ -1086,7 +1230,8 @@ const C={
  chRename(el){const[,c]=findS(el.dataset.s,el.dataset.c),v=el.value.trim();if(c&&v){c.name=v;save()}},
  importData(el){const file=el.files[0];el.value='';if(!file)return;file.text().then(txt=>{let o;try{o=JSON.parse(txt)}catch(e){return toast('That file is not an Orbit backup.')}if(!o||!o.settings||!Array.isArray(o.tasks))return toast('That file is not an Orbit backup.');if(!confirm('Replace everything on this device with this backup?'))return;S=migrate(o);applyTheme();commit();toast('Backup restored.')})}
 };
-const INP={storySearch(el){U.q=el.value;const l=$('#storyList');if(l)l.innerHTML=storyList()}};
+const Crec={recKind(el){el.form.dataset.kind=el.value}};Object.assign(C,Crec);
+const INP={storySearch(el){U.q=el.value;const l=$('#storyList');if(l)l.innerHTML=storyList()},walletSearch(el){U.wq=el.value;const l=$('#txList');if(l)l.innerHTML=txListHtml(monthTx(U.month))}};
 
 document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(!el)return;const fn=A[el.dataset.a];if(fn){fn(el.dataset,el)}});
 document.addEventListener('submit',e=>{const f=e.target.closest('form[data-form]');if(!f)return;e.preventDefault();F[f.dataset.form]?.(Object.fromEntries(new FormData(f)),f)});
@@ -1201,6 +1346,38 @@ document.addEventListener('submit',()=>FX.buzz(10),true);
  },{passive:true});
 })();
 
+/* ================= app lock ================= */
+const LOCK={
+ buf:'',hiddenAt:0,
+ on(){return !!(S&&S.settings.pinHash)},
+ show(){if(!this.on())return;const el=$('#lock');this.buf='';this.dots();
+  el.querySelector('.lk-pad').innerHTML=[1,2,3,4,5,6,7,8,9,'forgot',0,'del'].map(k=>k==='forgot'?(window.orbitSync?.state?.user?'<button class="lk-t" data-a="lockForgot">Forgot?</button>':'<span></span>'):k==='del'?`<button class="lk-k lk-t" data-a="lockKey" data-v="del" aria-label="Delete">⌫</button>`:`<button class="lk-k" data-a="lockKey" data-v="${k}">${k}</button>`).join('');
+  el.hidden=false;document.body.classList.add('locked');requestAnimationFrame(()=>el.classList.add('open'))},
+ hide(){const el=$('#lock');el.classList.remove('open');el.classList.add('out');setTimeout(()=>{el.hidden=true;el.classList.remove('out')},380);document.body.classList.remove('locked')},
+ dots(){$('#lock').querySelectorAll('.lk-dots i').forEach((d,i)=>d.classList.toggle('on',i<this.buf.length))},
+ async key(v){if(v==='del'){this.buf=this.buf.slice(0,-1);return this.dots()}if(this.buf.length>=4)return;this.buf+=v;this.dots();FX.buzz(4);
+  if(this.buf.length===4){const ok=await pinHash(this.buf)===S.settings.pinHash;if(ok){FX.buzz(12);this.hide()}else{const d=$('#lock .lk-dots');d.classList.remove('shake');void d.offsetWidth;d.classList.add('shake');FX.buzz(40);setTimeout(()=>{this.buf='';this.dots()},350)}}},
+ async forgot(){const email=window.orbitSync?.state?.user?.email;if(!email||!window.orbitSync.reauth)return;const got=await window.orbitSync.reauth();if(got&&got===email){S.settings.pinHash='';commit();this.hide();toast('PIN removed. Set a new one in Settings.')}else toast('Sign in with '+email+' to reset the PIN.')}
+};
+document.addEventListener('keydown',e=>{if(!document.body.classList.contains('locked'))return;if(/^\d$/.test(e.key))LOCK.key(e.key);else if(e.key==='Backspace')LOCK.key('del')});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')LOCK.hiddenAt=Date.now();else if(LOCK.on()&&LOCK.hiddenAt&&Date.now()-LOCK.hiddenAt>60000)LOCK.show()});
+
+/* ================= reminders (while Orbit is open or recently used) ================= */
+const NOTIFY={
+ seen(){try{return JSON.parse(localStorage.getItem('orbit:notified')||'{}')}catch(e){return{}}},
+ mark(k){try{const o=this.seen();o[k]=today();for(const x in o)if(o[x]<addDays(today(),-3))delete o[x];localStorage.setItem('orbit:notified',JSON.stringify(o))}catch(e){}},
+ send(key,title,body){if(this.seen()[key])return;this.mark(key);const opt={body,icon:'icon-192.png',badge:'icon-192.png',tag:key};
+  if(navigator.serviceWorker?.ready)navigator.serviceWorker.ready.then(r=>r.showNotification(title,opt)).catch(()=>{try{new Notification(title,opt)}catch(e){}});else try{new Notification(title,opt)}catch(e){}},
+ check(){
+  if(!S||!S.settings.notify||!('Notification' in window)||Notification.permission!=='granted')return;
+  const t=today(),w=waqtNow(),h=nowH();
+  if(w.k&&w.date===t&&!['on','qaza'].includes(salGet(t,w.k))){const left=w.end-h;if(left>0&&left<=.25)this.send(`sal-${t}-${w.k}`,`${WN[w.k]} ends in ${Math.max(1,Math.round(left*60))} min`,'Not marked yet. Tap to open Orbit.')}
+  S.loans.filter(l=>!l.closed&&l.due===t).forEach(l=>this.send(`loan-${l.id}-${t}`,l.dir==='lent'?`${l.person} owes you ${money(rem(l))}`:`You owe ${l.person} ${money(rem(l))}`,'Due today.'));
+  S.recurring.filter(r=>!recDone(r)&&recDue(r)===t).forEach(r=>this.send(`rec-${r.id}-${t}`,`${recLabel(r)} due today`,`${money(r.amt)}. Open Orbit to record it.`));
+ }
+};
+setInterval(()=>NOTIFY.check(),60000);
+
 /* ================= cloud sync bridge (sync.js) ================= */
 const busyNow=()=>sheetOpen()||!!(document.activeElement&&/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName));
 window.orbitApp={
@@ -1231,6 +1408,7 @@ let lastDay=today();
  applyTheme();render();
  if(!saved)save();
  window.orbitApp.ready=true;window.dispatchEvent(new Event('orbit-ready'));
+ LOCK.show();setTimeout(()=>NOTIFY.check(),3000);
  try{navigator.storage?.persist?.()}catch(e){}
  if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
  setInterval(()=>{
