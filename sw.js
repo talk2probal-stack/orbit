@@ -1,5 +1,5 @@
 /* Orbit service worker: works offline after the first visit. Bump VERSION when you update files. */
-const VERSION = 'orbit-v4';
+const VERSION = 'orbit-v5';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './sync.js', './merge.js', './firebase-config.js'];
 
 self.addEventListener('install', e => {

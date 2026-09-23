@@ -272,6 +272,10 @@ nav.tabs button[aria-current="page"]{color:var(--accent)}
 .dayhead{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-3);margin:18px 4px 7px;font-weight:500}
 .amt{font-weight:600;font-size:14.5px;white-space:nowrap}
 .amt.pos{color:var(--good)}
+.amt.tr{color:var(--ink-3);font-weight:500}
+.amt.muted{color:var(--accent)}
+.mi2{width:30px;height:30px;border-radius:10px;background:var(--surface-2);color:var(--ink-3);display:grid;place-items:center;flex:none}.mi2 svg{width:16px;height:16px}
+.btnrow .btn{padding-left:10px;padding-right:10px}
 .status{font-size:13.5px;font-weight:500;margin-top:10px}
 .status.bad{color:var(--bad)} .status.warn{color:var(--warn)} .status.good{color:var(--good)}
 .kv{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
@@ -456,7 +460,7 @@ const I={
  study:'<path d="M4 19.5V5.5A2.5 2.5 0 0 1 6.5 3H20v14H6.5A2.5 2.5 0 0 0 4 19.5a2.5 2.5 0 0 0 2.5 2.5H20v-5"/>',
  wallet:'<rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10.5h18M7 6V5a2 2 0 0 1 2-2h8"/><circle cx="16.5" cy="15" r=".6"/>',
  more:'<rect x="4" y="4" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="2"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="2"/>',
- plus:'<path d="M12 5v14M5 12h14"/>',check:'<path d="m5 12.5 4.5 4.5L19 7.5"/>',x:'<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',swap:'<path d="M7 4 3.5 7.5 7 11M3.5 7.5H17M17 13l3.5 3.5L17 20M20.5 16.5H7"/>',check:'<path d="m5 12.5 4.5 4.5L19 7.5"/>',x:'<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
  left:'<path d="m14.5 6-6 6 6 6"/>',right:'<path d="m9.5 6 6 6-6 6"/>',
  trash:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4.5A1.5 1.5 0 0 1 10.5 3h3A1.5 1.5 0 0 1 15 4.5V7"/>',
  gear:'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/>',
@@ -538,9 +542,9 @@ function freshState(){return{
  v:1,created:today(),
  settings:{name:'',place:'Dhaka',lat:23.8103,lng:90.4125,asr:'hanafi',examDate:'',water:8,sleep:8,screen:4,theme:'auto',lastBackup:''},
  logs:[],tasks:[],salah:{},vitals:{},subjects:seedStudy(),sessions:[],timer:null,
- txns:[],budgets:{},loans:[],moments:[],stories:[],assets:[]
+ txns:[],accounts:{bank:{opening:null},bkash:{opening:null},cash:{opening:null},dps:{opening:null}},budgets:{},loans:[],moments:[],stories:[],assets:[]
 }}
-function migrate(o){const f=freshState();for(const k in f)if(o[k]===undefined)o[k]=f[k];o.settings={...f.settings,...o.settings};return o}
+function migrate(o){const f=freshState();for(const k in f)if(o[k]===undefined)o[k]=f[k];o.settings={...f.settings,...o.settings};o.accounts={...f.accounts,...o.accounts};return o}
 
 /* ================= ui state ================= */
 const U={tab:'home',daySeg:'plan',walletSeg:'spend',vaultSeg:'gadget',more:null,date:today(),month:today().slice(0,7),open:{},edit:null,q:''};
@@ -743,13 +747,35 @@ function vWallet(){
  return head('Wallet',tag)+segc('walletSeg',[['spend','Spend'],['ledger','Ledger'],['report','Report']])+body;
 }
 const monthTx=m=>S.txns.filter(x=>x.date.startsWith(m));
+/* accounts: City Bank, bKash, Cash, DPS are one system. Transfers move money between them and never count as income or expense. */
+const ACCTS=[['bank','City Bank'],['bkash','bKash'],['cash','Cash'],['dps','DPS / Savings']];
+const accName=k=>(ACCTS.find(a=>a[0]===k)||[,''])[1];
+function accMove(k){let n=0;S.txns.forEach(x=>{if(x.type==='tr'){if(x.to===k)n+=x.amt;if(x.from===k)n-=x.amt}else if(x.acc===k)n+=x.type==='in'?x.amt:-x.amt});return n}
+function accBal(k){const a=S.accounts[k];return a&&a.opening!=null?a.opening+accMove(k):null}
+const trLabel=x=>`${accName(x.from)} → ${accName(x.to)}`;
+const trKind=x=>x.to==='dps'?'Savings':'Transfer';
+function accountsHtml(){
+ const rows=ACCTS.map(([k,n])=>{const b=accBal(k),o=S.accounts[k]?.opening;
+  return `<button class="row" data-a="accEdit" data-k="${k}"><span class="grow"><span class="t">${n}</span><span class="s">${b==null?'Tap to set balance':o<0?`<span style="color:var(--bad)">Missing incoming money, check entries</span>`:`Start ${money(o)}`}</span></span><span class="amt ${b==null?'muted':''}">${b==null?'Set':money(b)}</span></button>`}).join('');
+ const set=ACCTS.filter(([k])=>accBal(k)!=null),unset=ACCTS.filter(([k])=>accBal(k)==null).map(a=>a[1]);
+ const tot=sum(set.map(([k])=>accBal(k)));
+ const loose=S.txns.filter(x=>x.type!=='tr'&&!x.acc).length;
+ return `<section class="sec"><div class="sec-h"><h2>Balances now</h2><span class="aside">Transfers never count as spending</span></div><div class="list">${rows}
+ <div class="row" style="background:var(--surface-2)"><span class="grow"><span class="t">Total money</span><span class="s">${unset.length?`Not counting ${unset.join(', ')}`:'All accounts'}</span></span><span class="amt">${money(tot)}</span></div></div>
+ ${loose?`<p class="small muted" style="margin:8px 4px 0">${plural(loose,'entry')} without an account ${loose>1?'are':'is'} left out of balances.</p>`:''}</section>`;
+}
+function txnRow(x){
+ if(x.type==='tr')return `<button class="row" data-a="txnEdit" data-id="${x.id}"><span class="mi2">${ic('swap')}</span><span class="grow"><span class="t">${esc(x.note||trLabel(x))}</span><span class="s">${trKind(x)}${x.note?` · ${trLabel(x)}`:''}</span></span><span class="amt tr">${money(x.amt)}</span></button>`;
+ return `<button class="row" data-a="txnEdit" data-id="${x.id}"><span class="grow"><span class="t">${esc(x.note||x.cat)}</span><span class="s">${esc(x.note?x.cat:'')}${x.acc?`${x.note?' · ':''}${accName(x.acc)}`:''}</span></span><span class="amt ${x.type==='in'?'pos':''}">${x.type==='in'?'+':''}${money(x.amt)}</span></button>`;
+}
 function spendHtml(){
  const list=monthTx(U.month).sort((a,b)=>b.date.localeCompare(a.date)||b.ts-a.ts);
  const inc=sum(list.filter(x=>x.type==='in').map(x=>x.amt)),out=sum(list.filter(x=>x.type==='out').map(x=>x.amt));
  const byDay={};list.forEach(x=>(byDay[x.date]=byDay[x.date]||[]).push(x));
  return monthNav()+`<div class="sum3"><div><div class="k">In</div><div class="v">${money(inc)}</div></div><div><div class="k">Out</div><div class="v">${money(out)}</div></div><div><div class="k">Left</div><div class="v">${money(inc-out)}</div></div></div>
- <div class="btnrow"><button class="btn" data-a="txnNew" data-t="out">${ic('plus')}Expense</button><button class="btn ghost" data-a="txnNew" data-t="in">${ic('plus')}Income</button></div>
- ${Object.keys(byDay).length?Object.entries(byDay).map(([d,xs])=>`<div class="dayhead"><span>${dayLabel(d)}</span><span>${money(sum(xs.filter(x=>x.type==='out').map(x=>x.amt)))}</span></div><div class="list">${xs.map(x=>`<button class="row" data-a="txnEdit" data-id="${x.id}"><span class="grow"><span class="t">${esc(x.note||x.cat)}</span>${x.note?`<span class="s">${esc(x.cat)}</span>`:''}</span><span class="amt ${x.type==='in'?'pos':''}">${x.type==='in'?'+':''}${money(x.amt)}</span></button>`).join('')}</div>`).join(''):`<p class="empty">No entries in ${monthShort(U.month)}. Add your first expense.</p>`}`;
+ <div class="btnrow"><button class="btn" data-a="txnNew" data-t="out">${ic('plus')}Expense</button><button class="btn ghost" data-a="txnNew" data-t="in">${ic('plus')}Income</button><button class="btn ghost" data-a="txnNew" data-t="tr">${ic('swap')}Transfer</button></div>
+ ${accountsHtml()}
+ ${Object.keys(byDay).length?Object.entries(byDay).map(([d,xs])=>`<div class="dayhead"><span>${dayLabel(d)}</span><span>${money(sum(xs.filter(x=>x.type==='out').map(x=>x.amt)))}</span></div><div class="list">${xs.map(txnRow).join('')}</div>`).join(''):`<p class="empty">No entries in ${monthShort(U.month)}. Add your first expense.</p>`}`;
 }
 const rem=l=>Math.max(0,l.amt-sum((l.paid||[]).map(p=>p.amt)));
 function dueText(l){if(!l.due)return'No due date';const dd=daysBetween(today(),l.due);return dd<0?`Overdue by ${plural(-dd,'day')}`:dd===0?'Due today':`Due in ${plural(dd,'day')}`}
@@ -779,9 +805,12 @@ function reportHtml(){
   Object.entries(S.budgets).forEach(([c,lim])=>{const s=cats[c]||0;if(s>lim)ins.push({c:'bad',t:`${c} is over its limit by ${money(s-lim)}.`});else if(s>=lim*.8)ins.push({c:'warn',t:`${c} has used ${Math.round(s/lim*100)}% of its limit.`})});
   if(inc){if(out>inc)ins.push({c:'bad',t:`You spent ${money(out-inc)} more than came in.`});else ins.push({c:'good',t:`You kept ${Math.round((inc-out)/inc*100)}% of what came in.`})}
  }
+ const trs=list.filter(x=>x.type==='tr'),sav=sum(trs.filter(x=>x.to==='dps').map(x=>x.amt)),mv=sum(trs.filter(x=>x.to!=='dps').map(x=>x.amt));
+ if(sav)ins.push({c:'good',t:`You put ${money(sav)} into savings. It is not counted as spending.`});
+ if(mv)ins.push({t:`${money(mv)} moved between your own accounts. Not counted as income or spending.`});
  const max=sorted.length?sorted[0][1]:1;
  return monthNav()+`<div class="sum3"><div><div class="k">In</div><div class="v">${money(inc)}</div></div><div><div class="k">Out</div><div class="v">${money(out)}</div></div><div><div class="k">Net</div><div class="v">${money(inc-out)}</div></div></div>
- ${out?`<section class="sec"><div class="sec-h"><h2>What stands out</h2></div><div class="insights">${ins.map(i=>`<p class="${i.c||''}">${i.t}</p>`).join('')}</div></section>`:`<p class="empty">No expenses in ${monthShort(m)} yet.</p>`}
+ ${ins.length?`<section class="sec"><div class="sec-h"><h2>What stands out</h2></div><div class="insights">${ins.map(i=>`<p class="${i.c||''}">${i.t}</p>`).join('')}</div></section>`:`<p class="empty">No expenses in ${monthShort(m)} yet.</p>`}
  <section class="sec"><div class="sec-h"><h2>By category</h2><button class="link" data-a="budgetEdit">Set limits</button></div>
  ${sorted.length?`<div class="list">${sorted.map(([c,v])=>{const lim=S.budgets[c];const r=lim?v/lim:v/max;return `<div class="cat"><div class="top"><span>${esc(c)}</span><span>${money(v)}</span></div>${bar(r,lim?(r>1?'bad':r>=.8?'warn':''):'')}${lim?`<div class="lim">${Math.round(v/lim*100)}% of ${money(lim)} limit</div>`:''}</div>`}).join('')}</div>`:`<p class="empty">Categories show up once you add expenses.</p>`}</section>`;
 }
@@ -791,7 +820,7 @@ const MORE=[['moments','moment','Moments','Keep the good ones.'],['stories','sto
 const backBtn=`<button class="back" data-a="more" data-v="">${ic('left')}More</button>`;
 function vMore(){
  if(U.more)return backBtn+{moments:vMoments,stories:vStories,vault:vVault,remind:vRemind,settings:vSettings}[U.more]();
- return head('More','Everything else, in its place.')+`<div class="list menu">${MORE.map(([k,i,t,s])=>`<button class="row" data-a="more" data-v="${k}"><span class="mi">${ic(i)}</span><span class="grow"><span class="t">${t}</span><span class="s">${s}</span></span>${ic('right','chev')}</button>`).join('')}</div><p class="foot">${APP} ${VERSION}. No account, no server.<br>Everything you enter lives on this device.</p>`;
+ return head('More','Everything else, in its place.')+`<div class="list menu">${MORE.map(([k,i,t,s])=>`<button class="row" data-a="more" data-v="${k}"><span class="mi">${ic(i)}</span><span class="grow"><span class="t">${t}</span><span class="s">${s}</span></span>${ic('right','chev')}</button>`).join('')}</div><p class="foot">${APP} ${VERSION}. Saved on this device first.<br>Synced to your Google account when signed in.</p>`;
 }
 function vMoments(){
  const list=[...S.moments].sort((a,b)=>b.date.localeCompare(a.date)||b.ts-a.ts),by={};
@@ -874,11 +903,34 @@ function openSheet(title,html,focusSel){
 function closeSheet(now){document.querySelectorAll('.sheet,.scrim').forEach(el=>{if(now)el.remove();else{el.classList.remove('open');setTimeout(()=>el.remove(),280)}})}
 const sheetOpen=()=>!!$('.sheet');
 const chipsHtml=(name,opts,cur)=>`<div class="chips">${opts.map(o=>{const[v,n]=Array.isArray(o)?o:[o,o];return `<label><input type="radio" name="${name}" value="${esc(v)}" ${v===cur?'checked':''}><span>${esc(n)}</span></label>`}).join('')}</div>`;
+function trSheet(x){
+ const def=S.settings.lastTr||{from:'bkash',to:'bank'};
+ openSheet(`${x?'Edit':'New'} transfer`,`<form class="form" data-form="txn"><input type="hidden" name="id" value="${x?.id||''}"><input type="hidden" name="type" value="tr">
+ <p class="small muted" style="margin-top:-6px">Money moving between your own accounts. It is never counted as income or spending.</p>
+ <label><span class="lbl">Amount, in taka</span><input class="field" name="amt" type="number" inputmode="decimal" step="any" min="0" value="${x?.amt??''}" placeholder="0" style="font-size:22px;font-weight:600"></label>
+ <div><span class="lbl">From</span>${chipsHtml('from',ACCTS,x?.from||def.from)}</div>
+ <div><span class="lbl">To</span>${chipsHtml('to',ACCTS,x?.to||def.to)}</div>
+ <label><span class="lbl">Note</span><input class="field" name="note" value="${esc(x?.note||'')}" placeholder="Optional, like Cash out or ATM deposit" autocomplete="off"></label>
+ <label><span class="lbl">Date</span><input class="field" type="date" name="date" value="${x?.date||today()}"></label>
+ <button class="btn block">${x?'Save changes':'Add transfer'}</button>
+ ${x?`<button type="button" class="btn danger block" data-a="txnDel" data-id="${x.id}">Delete entry</button>`:''}</form>`,x?null:'input[name=amt]');
+}
+function accSheet(k){
+ const a=S.accounts[k]||{},b=accBal(k);
+ openSheet(accName(k),`<form class="form" data-form="acc"><input type="hidden" name="k" value="${k}">
+ <p class="small muted" style="margin-top:-6px;line-height:1.6">Type what this account holds right now. Orbit works out the starting balance from your entries and keeps it current from here on.</p>
+ <label><span class="lbl">Balance right now, in taka</span><input class="field" name="bal" type="number" inputmode="decimal" step="any" value="${b??''}" placeholder="0" style="font-size:22px;font-weight:600"></label>
+ ${a.opening!=null?`<p class="small muted">Starting balance before your first entry: ${money(a.opening)}</p>`:''}
+ <button class="btn block">Save balance</button>
+ ${a.opening!=null?`<button type="button" class="btn danger block" data-a="accClear" data-k="${k}">Clear balance</button>`:''}</form>`,'input[name=bal]');
+}
 function txnSheet(type,x){
+ if(type==='tr')return trSheet(x);
  const cats=type==='in'?INC_CATS:EXP_CATS;
  openSheet(`${x?'Edit':'Add'} ${type==='in'?'income':'expense'}`,`<form class="form" data-form="txn"><input type="hidden" name="id" value="${x?.id||''}"><input type="hidden" name="type" value="${type}">
  <label><span class="lbl">Amount, in taka</span><input class="field" name="amt" type="number" inputmode="decimal" step="any" min="0" value="${x?.amt??''}" placeholder="0" style="font-size:22px;font-weight:600"></label>
  <div><span class="lbl">Category</span>${chipsHtml('cat',cats,x?.cat||cats[0])}</div>
+ <div><span class="lbl">Account</span>${chipsHtml('acc',ACCTS.filter(a=>a[0]!=='dps'),x?(x.acc||''):(S.settings.lastAcc||'bank'))}</div>
  <label><span class="lbl">Note</span><input class="field" name="note" value="${esc(x?.note||'')}" placeholder="Optional" autocomplete="off"></label>
  <label><span class="lbl">Date</span><input class="field" type="date" name="date" value="${x?.date||today()}"></label>
  <button class="btn block">${x?'Save changes':type==='in'?'Add income':'Add expense'}</button>
@@ -997,6 +1049,8 @@ const A={
  loanSettle(d){const l=S.loans.find(x=>x.id===d.id);if(!l)return;l.closed=!l.closed;closeSheet();commit();toast(l.closed?'Marked settled.':'Reopened.')},
  loanDel(d){if(!confirm('Delete this ledger entry?'))return;S.loans=S.loans.filter(x=>x.id!==d.id);closeSheet();commit();toast('Entry deleted.')},
  budgetEdit(){budgetSheet()},
+ accEdit(d){accSheet(d.k)},
+ accClear(d){if(!confirm('Clear this balance?'))return;S.accounts[d.k]={opening:null};closeSheet();commit();toast('Balance cleared.')},
  more(d){U.more=d.v||null;U.q='';render();scrollTo(0,0)},
  momentDel(d){if(!confirm('Remove this moment?'))return;S.moments=S.moments.filter(x=>x.id!==d.id);commit()},
  storyNew(){storySheet()},
@@ -1015,7 +1069,8 @@ const F={
  task(d,f){const text=(d.text||'').trim();if(!text)return;S.tasks.push({id:uid(),date:f.dataset.date,text,done:false,ts:Date.now()});commit();refocus(`form[data-form=task][data-date="${f.dataset.date}"] input`)},
  log(d){const text=(d.text||'').trim();if(!text)return;S.logs.push({id:uid(),date:U.date,time:d.time||'12:00',text});commit();refocus('form[data-form=log] input[name=text]')},
  moment(d){const text=(d.text||'').trim();if(!text)return;S.moments.push({id:uid(),date:d.date||today(),text,ts:Date.now()});commit();toast('Kept.')},
- txn(d){const amt=parseFloat(d.amt);if(!(amt>0))return toast('Enter an amount above zero.');const o={id:d.id||uid(),type:d.type,amt,cat:d.cat||'Other',note:(d.note||'').trim(),date:d.date||today(),ts:Date.now()};const i=S.txns.findIndex(x=>x.id===d.id);if(i>=0){o.ts=S.txns[i].ts;S.txns[i]=o}else S.txns.push(o);closeSheet();commit();toast(d.id?'Changes saved.':d.type==='in'?'Income added.':'Expense added.')},
+ acc(d){const v=Math.round(parseFloat(d.bal));if(!Number.isFinite(v))return toast('Enter a number.');S.accounts[d.k]={opening:v-accMove(d.k)};closeSheet();commit();toast('Balance saved.')},
+ txn(d){const amt=Math.round(parseFloat(d.amt));if(!(amt>0))return toast('Enter an amount above zero.');const o={id:d.id||uid(),type:d.type,amt,cat:d.type==='tr'?'Transfer':(d.cat||'Other'),note:(d.note||'').trim(),date:d.date||today(),ts:Date.now()};if(d.type==='tr'){if(d.from===d.to)return toast('Pick two different accounts.');o.from=d.from;o.to=d.to;S.settings.lastTr={from:d.from,to:d.to}}else if(d.acc){o.acc=d.acc;S.settings.lastAcc=d.acc}const i=S.txns.findIndex(x=>x.id===d.id);if(i>=0){o.ts=S.txns[i].ts;S.txns[i]=o}else S.txns.push(o);closeSheet();commit();toast(d.id?'Changes saved.':d.type==='in'?'Income added.':d.type==='tr'?'Transfer added.':'Expense added.')},
  loan(d){const amt=parseFloat(d.amt),person=(d.person||'').trim();if(!person)return toast('Add the person\'s name.');if(!(amt>0))return toast('Enter an amount above zero.');const ex=S.loans.find(x=>x.id===d.id),o={dir:d.dir,person,amt,date:d.date||today(),due:d.due||'',note:(d.note||'').trim()};if(ex)Object.assign(ex,o);else S.loans.push({id:uid(),...o,paid:[],closed:false});closeSheet();commit();toast(ex?'Changes saved.':'Entry saved.')},
  repay(d,f){const l=S.loans.find(x=>x.id===f.dataset.id),a=parseFloat(d.amt);if(!l||!(a>0))return toast('Enter an amount above zero.');l.paid.push({date:d.date||today(),amt:a});if(rem(l)<=0)l.closed=true;closeSheet();commit();toast(l.closed?'Settled in full.':'Repayment recorded.')},
  budgets(d){S.budgets={};EXP_CATS.forEach(c=>{const v=parseFloat(d['b_'+c]);if(v>0)S.budgets[c]=v});closeSheet();commit();toast('Limits saved.')},
