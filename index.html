@@ -273,6 +273,7 @@ nav.tabs button[aria-current="page"]{color:var(--accent)}
 .amt{font-weight:600;font-size:14.5px;white-space:nowrap}
 .amt.pos{color:var(--good)}
 .amt.tr{color:var(--ink-3);font-weight:500}
+.trnote{display:flex;align-items:center;gap:8px;width:100%;margin-top:12px;padding:10px 14px;border-radius:14px;border:1px dashed var(--line);color:var(--ink-2);font-size:13px}.trnote svg{width:16px;height:16px;color:var(--ink-3)}
 .amt.muted{color:var(--accent)}
 .mi2{width:30px;height:30px;border-radius:10px;background:var(--surface-2);color:var(--ink-3);display:grid;place-items:center;flex:none}.mi2 svg{width:16px;height:16px}
 .btnrow .btn{padding-left:10px;padding-right:10px}
@@ -817,23 +818,26 @@ function accountsHtml(){
  const set=ACCTS.filter(([k])=>accBal(k)!=null),unset=ACCTS.filter(([k])=>accBal(k)==null).map(a=>a[1]);
  const tot=sum(set.map(([k])=>accBal(k)));
  const loose=S.txns.filter(x=>x.type!=='tr'&&!x.acc).length;
- return `<section class="sec"><div class="sec-h"><h2>Balances now</h2><span class="aside">Transfers never count as spending</span></div><div class="list">${rows}
+ return `<section class="sec"><div class="sec-h"><h2>Balances now</h2><span class="aside">What you hold today</span></div><div class="list">${rows}
  <div class="row" style="background:var(--surface-2)"><span class="grow"><span class="t">Total money</span><span class="s">${unset.length?`Not counting ${unset.join(', ')}`:'All accounts'}</span></span><span class="amt">${money(tot)}</span></div></div>
  ${loose?`<p class="small muted" style="margin:8px 4px 0">${plural(loose,'entry')} without an account ${loose>1?'are':'is'} left out of balances.</p>`:''}</section>`;
 }
 function txFilter(x){
- const f=U.wacc||'all',q=(U.wq||'').trim().toLowerCase();
+ const f=U.wacc||'main',q=(U.wq||'').trim().toLowerCase();
+ if(f==='main'&&x.type==='tr')return false;
  if(f==='tr'&&x.type!=='tr')return false;
- if(f!=='all'&&f!=='tr'&&!(x.acc===f||x.from===f||x.to===f))return false;
+ if(f!=='all'&&f!=='tr'&&f!=='main'&&!(x.acc===f||x.from===f||x.to===f))return false;
  if(q&&![x.note,x.cat,String(x.amt),accName(x.acc),accName(x.from),accName(x.to)].join(' ').toLowerCase().includes(q))return false;
  return true;
 }
 function txListHtml(all){
- const list=all.filter(txFilter).sort((a,b)=>b.date.localeCompare(a.date)||b.ts-a.ts),on=(U.wacc&&U.wacc!=='all')||(U.wq||'').trim();
+ const list=all.filter(txFilter).sort((a,b)=>b.date.localeCompare(a.date)||b.ts-a.ts),on=(U.wacc&&U.wacc!=='main')||(U.wq||'').trim();
+ const hiddenTr=(U.wacc||'main')==='main'?all.filter(x=>x.type==='tr').length:0;
  if(!list.length)return `<p class="empty">${on?'Nothing matches.':`No entries in ${monthShort(U.month)}. Tap + to add one.`}</p>`;
  const byDay={};list.forEach(x=>(byDay[x.date]=byDay[x.date]||[]).push(x));
  const head=on?`<p class="small muted" style="margin:10px 4px 0">${plural(list.length,'entry')} · in ${money(sum(list.filter(x=>x.type==='in').map(x=>x.amt)))} · out ${money(sum(list.filter(x=>x.type==='out').map(x=>x.amt)))}</p>`:'';
- return head+Object.entries(byDay).map(([d,xs])=>`<div class="dayhead"><span>${dayLabel(d)}</span><span>${money(sum(xs.filter(x=>x.type==='out').map(x=>x.amt)))}</span></div><div class="list">${xs.map(txnRow).join('')}</div>`).join('');
+ const note=hiddenTr?`<button class="trnote" data-a="wf" data-v="tr">${ic('swap')}${plural(hiddenTr,'transfer')} between your accounts hidden. See them</button>`:(U.wacc==='tr'?`<p class="small muted" style="margin:10px 4px 0;line-height:1.55">These only moved your own money from one account to another. None of it is income or spending.</p>`:'');
+ return note+head+Object.entries(byDay).map(([d,xs])=>`<div class="dayhead"><span>${dayLabel(d)}</span><span>${money(sum(xs.filter(x=>x.type==='out').map(x=>x.amt)))}</span></div><div class="list">${xs.map(txnRow).join('')}</div>`).join('');
 }
 function txnRow(x){
  if(x.type==='tr')return `<button class="row" data-a="txnEdit" data-id="${x.id}"><span class="mi2">${ic('swap')}</span><span class="grow"><span class="t">${esc(x.note||trLabel(x))}</span><span class="s">${trKind(x)}${x.note?` · ${trLabel(x)}`:''}</span></span><span class="amt tr">${money(x.amt)}</span></button>`;
@@ -843,13 +847,14 @@ function spendHtml(){
  const list=monthTx(U.month).sort((a,b)=>b.date.localeCompare(a.date)||b.ts-a.ts);
  const inc=sum(list.filter(x=>x.type==='in').map(x=>x.amt)),out=sum(list.filter(x=>x.type==='out').map(x=>x.amt));
  const byDay={};list.forEach(x=>(byDay[x.date]=byDay[x.date]||[]).push(x));
- return monthNav()+`<div class="sum3"><div><div class="k">In</div><div class="v">${money(inc)}</div></div><div><div class="k">Out</div><div class="v">${money(out)}</div></div><div><div class="k">Left</div><div class="v">${money(inc-out)}</div></div></div>
+ return monthNav()+`<div class="sum3"><div><div class="k">Income</div><div class="v">${money(inc)}</div></div><div><div class="k">Spent</div><div class="v">${money(out)}</div></div><div><div class="k">Net</div><div class="v">${money(inc-out)}</div></div></div>
+ <p class="small muted" style="margin:8px 4px 0;line-height:1.55">Only real income and spending. Money moved between your own accounts is left out.</p>
  <div class="btnrow"><button class="btn" data-a="txnNew" data-t="out">${ic('plus')}Expense</button><button class="btn ghost" data-a="txnNew" data-t="in">${ic('plus')}Income</button><button class="btn ghost" data-a="txnNew" data-t="tr">${ic('swap')}Transfer</button></div>
  ${accountsHtml()}
  ${recurringHtml()}
  <section class="sec"><div class="sec-h"><h2>Entries</h2></div>
  <div class="wsearch">${ic('search')}<input class="field" type="search" data-input="walletSearch" value="${esc(U.wq||'')}" placeholder="Search notes, categories, amounts" aria-label="Search entries"></div>
- <div class="fchips">${[['all','All'],...ACCTS.filter(a=>a[0]!=='dps'),['tr','Transfers']].map(([v,n])=>`<button data-a="wf" data-v="${v}" aria-pressed="${(U.wacc||'all')===v}">${n}</button>`).join('')}</div>
+ <div class="fchips">${[['main','Income & spending'],...ACCTS.filter(a=>a[0]!=='dps'),['tr','Transfers'],['all','Everything']].map(([v,n])=>`<button data-a="wf" data-v="${v}" aria-pressed="${(U.wacc||'main')===v}">${n}</button>`).join('')}</div>
  <div id="txList">${txListHtml(list)}</div></section>`;
 }
 const rem=l=>Math.max(0,l.amt-sum((l.paid||[]).map(p=>p.amt)));
@@ -1383,8 +1388,9 @@ const busyNow=()=>sheetOpen()||!!(document.activeElement&&/INPUT|TEXTAREA|SELECT
 window.orbitApp={
  ready:false,needRender:false,
  get:()=>JSON.parse(JSON.stringify(S)),
- getBase:()=>DB.get('syncBase'),
- setBase:v=>DB.set('syncBase',v),
+ base:undefined,
+ async getBase(){if(this.base===undefined)this.base=await DB.get('syncBase');return this.base==null?null:JSON.parse(JSON.stringify(this.base))},
+ setBase(v){this.base=v==null?null:JSON.parse(JSON.stringify(v));return DB.set('syncBase',this.base)},
  replace(o){S=migrate(o);applyTheme();DB.set('state',S);if(busyNow())this.needRender=true;else this.render()},
  busy:busyNow,
  render(){this.needRender=false;render()},

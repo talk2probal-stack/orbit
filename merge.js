@@ -90,6 +90,10 @@ export function mergeStates(base, local, remote) {
   if (!remote) return clone(local);
   if (!local || (!base && isPristine(local))) return clone(remote);
   const first = !base;
+  // A device running an older copy of Orbit may not know about newer sections
+  // (like monthly items). A section it lacks entirely is "unknown", not "deleted".
+  local = { ...local };
+  for (const k of Object.keys(remote)) if (!(k in local)) local[k] = clone(remote[k]);
   const out = merge3(first ? undefined : base, local, remote, lt >= rt, first);
   out._t = Math.max(lt, rt);
   return out;
