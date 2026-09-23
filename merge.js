@@ -77,11 +77,12 @@ export function merge3(b, l, r, localNewer, first = false, path = []) {
 // True when a state holds nothing the person typed in (a brand-new install).
 export function isPristine(s) {
   if (!s) return true;
-  const lists = ['logs', 'tasks', 'sessions', 'txns', 'loans', 'moments', 'stories', 'assets'];
+  const lists = ['logs', 'tasks', 'sessions', 'txns', 'loans', 'moments', 'stories', 'assets', 'habits', 'recurring'];
   if (lists.some(k => Array.isArray(s[k]) && s[k].length)) return false;
   if (['salah', 'vitals', 'budgets'].some(k => isObj(s[k]) && Object.keys(s[k]).length)) return false;
   if ((s.subjects || []).some(x => (x.chapters || []).some(c => c.steps && Object.keys(c.steps).length))) return false;
-  if (s.settings && s.settings.name) return false;
+  if (s.settings && (s.settings.name || s.settings.pinHash)) return false;
+  if (s.accounts && Object.values(s.accounts).some(a => a && a.opening != null)) return false;
   return true;
 }
 

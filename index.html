@@ -221,45 +221,24 @@ nav.tabs button[aria-current="page"]{color:var(--accent)}
 .days span{flex:1;text-align:center;font-size:11px;color:var(--ink-3)}
 .trend{font-size:13px;color:var(--ink-2);margin-top:10px}
 
-/* study */
-.sov .line{font-size:17px;font-weight:600;letter-spacing:-.015em}
-.sov .sub{font-size:13px;color:var(--ink-3);margin-top:2px}
-.sov .bar{height:8px;margin:14px 0 12px}
-.sov .pace{font-size:13.5px;color:var(--ink-2);line-height:1.6}
-.examrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink-2)}
-.examrow .field{width:auto;padding:7px 10px;min-height:0;font-size:13.5px}
-.timer{display:flex;align-items:center;gap:12px}
-.timer .t{font-weight:600;font-size:15px}
-.timer .s{font-size:12.5px;color:var(--ink-3)}
-.timer.on{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
-.timer.on .s{color:inherit;opacity:.75}
-.timer.on .btn{background:var(--on-accent);color:var(--accent)}
-.clock{font-size:24px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin-left:auto}
-.wk{margin-top:12px;display:grid;gap:9px}
-.wk .r{display:grid;grid-template-columns:92px 1fr 54px;gap:10px;align-items:center;font-size:13px}
-.wk .bar{margin:0;height:6px}
-.wk .r span:last-child{text-align:right;color:var(--ink-3);font-variant-numeric:tabular-nums}
-.grp .gh .t{margin-bottom:7px}
-.grp .gh .bar{height:5px}
-.grp .pct{font-size:13px;color:var(--ink-2);font-weight:500;width:40px;text-align:right;font-variant-numeric:tabular-nums}
-.grp .gh .chev{transition:transform .2s}
-.grp.open .gh .chev{transform:rotate(90deg)}
-.paper{border-top:1px solid var(--line);background:var(--surface-2)}
-.paper .ph2{display:flex;align-items:center;gap:10px;padding:12px 16px 4px}
-.paper .ph2 .t{font-weight:600;font-size:13.5px;flex:1}
-.ch{padding:10px 16px 12px}
-.ch+.ch{border-top:1px dashed var(--line)}
-.ch .nm{font-size:14px;display:flex;gap:10px;align-items:baseline}
-.ch .nm .n{font-size:11.5px;color:var(--ink-3);width:18px;flex:none;font-variant-numeric:tabular-nums}
-.ch.full .nm{color:var(--ink-2)}
-.ch.full .nm .n{color:var(--good);font-weight:600}
-.steps{display:flex;gap:6px;margin:8px 0 0 28px;flex-wrap:wrap}
-.steps button{font-size:12px;padding:5px 11px;border-radius:99px;border:1px solid var(--line);color:var(--ink-2);background:var(--surface)}
-.steps button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
-.ch.edit,.ch.add{display:flex;gap:8px;align-items:center}
-.ch.edit .field,.ch.add .field{padding:8px 11px;font-size:14px;background:var(--surface)}
-.paper .link.danger{display:block;padding:4px 16px 14px}
-
+/* habits */
+.ck.big{width:30px;height:30px;border-radius:10px}
+.ck.big svg{width:18px;height:18px}
+.row.habit{gap:12px}
+.hbody{flex:1;min-width:0;text-align:left;padding:2px 0}
+.row.habit.on .t{color:var(--ink-2)}
+.hdots{display:flex;gap:4px;flex:none}
+.hdots i{width:8px;height:8px;border-radius:50%;background:var(--surface-2);border:1px solid var(--line)}
+.hdots i.on{background:var(--good);border-color:transparent}
+.hdots i.today{box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 45%,transparent)}
+.chipbtn{padding:7px 13px;border-radius:99px;border:1px solid var(--line);font-size:13px;background:var(--surface-2);color:var(--ink-2)}
+.hcal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}
+.hcal>span{font-size:11px;color:var(--ink-3);padding-bottom:2px}
+.hcal .hc{aspect-ratio:1;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);font-size:13px;color:var(--ink-2);display:grid;place-items:center}
+.hcal .hc.on{background:var(--good);border-color:transparent;color:#fff;font-weight:600}
+.hcal .hc.today{box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 55%,transparent)}
+.hcal .hc.future{opacity:.35}
+.hcal .pad{display:block}
 /* wallet */
 .sum3{display:grid;grid-template-columns:repeat(3,1fr);background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
 .sum3.two-col{grid-template-columns:1fr 1fr}
@@ -473,12 +452,12 @@ select.field{min-height:46px;background-image:linear-gradient(45deg,transparent 
 <div id="lock" class="lock" hidden><div class="lk-in"><div class="lk-logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></div><h2>Orbit is locked</h2><p>Enter your PIN</p><div class="lk-dots"><i></i><i></i><i></i><i></i></div><div class="lk-pad"></div></div></div>
 <script>
 'use strict';
+try{if(localStorage.getItem('orbit:lock')==='1'){const l=document.getElementById('lock');l.hidden=false;l.classList.add('open');document.body.classList.add('locked')}}catch(e){}
 /* ================= constants ================= */
 const APP='Orbit', VERSION='1.0';
 const WAQT=[['fajr','Fajr'],['dhuhr','Dhuhr'],['asr','Asr'],['maghrib','Maghrib'],['isha','Isha']];
 const WN=Object.fromEntries(WAQT);
 const SALST={on:'On time',qaza:'Qaza',miss:'Missed'};
-const STEPS=[['read','Read'],['mcq','MCQ'],['cq','CQ'],['rev','Revise']];
 const EXP_CATS=['Food','Transport','Study','Books','Mobile & net','Outing','Health','Gifts','Other'];
 const INC_CATS=['Allowance','Tuition','Gift','Other'];
 
@@ -511,7 +490,7 @@ const plural=(n,w)=>`${n} ${w}${n===1?'':'s'}`;
 const I={
  home:'<path d="M3.5 10.2 12 3.5l8.5 6.7V19a1.5 1.5 0 0 1-1.5 1.5h-4.2v-5.8H9.2v5.8H5A1.5 1.5 0 0 1 3.5 19z"/>',
  day:'<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/>',
- study:'<path d="M4 19.5V5.5A2.5 2.5 0 0 1 6.5 3H20v14H6.5A2.5 2.5 0 0 0 4 19.5a2.5 2.5 0 0 0 2.5 2.5H20v-5"/>',
+ habits:'<path d="M9 12.5l2 2 4.5-4.5"/><circle cx="12" cy="12" r="9"/>',study:'<path d="M4 19.5V5.5A2.5 2.5 0 0 1 6.5 3H20v14H6.5A2.5 2.5 0 0 0 4 19.5a2.5 2.5 0 0 0 2.5 2.5H20v-5"/>',
  wallet:'<rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10.5h18M7 6V5a2 2 0 0 1 2-2h8"/><circle cx="16.5" cy="15" r=".6"/>',
  more:'<rect x="4" y="4" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="2"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="2"/>',
  plus:'<path d="M12 5v14M5 12h14"/>',swap:'<path d="M7 4 3.5 7.5 7 11M3.5 7.5H17M17 13l3.5 3.5L17 20M20.5 16.5H7"/>',eye:'<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',eyeoff:'<path d="M3 3l18 18M10.6 5.6A9.6 9.6 0 0 1 12 5.5c6 0 9.5 6.5 9.5 6.5a17 17 0 0 1-3.2 4M6.6 6.6C4 8.4 2.5 12 2.5 12S6 18.5 12 18.5c1.8 0 3.4-.6 4.7-1.4M9.9 9.9a3 3 0 0 0 4.2 4.2"/>',lock:'<rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>',repeat:'<path d="M17 2.5l3 3-3 3M4 11.5v-1a5 5 0 0 1 5-5h11M7 21.5l-3-3 3-3M20 12.5v1a5 5 0 0 1-5 5H4"/>',drop:'<path d="M12 3.5s6 6.4 6 10.5a6 6 0 0 1-12 0c0-4.1 6-10.5 6-10.5z"/>',note:'<path d="M5 4.5h14v15H5z"/><path d="M8.5 9h7M8.5 12.5h7M8.5 16h4"/>',check:'<path d="m5 12.5 4.5 4.5L19 7.5"/>',x:'<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
@@ -574,28 +553,10 @@ let S,saveT;
 function save(){if(S)S._t=Date.now();clearTimeout(saveT);saveT=setTimeout(()=>DB.set('state',S),200);window.orbitSync?.notify?.()}
 function commit(){save();render()}
 
-function seedStudy(){
- const P=(group,paper,chs)=>({id:uid(),group,paper,chapters:chs.map(n=>({id:uid(),name:n,steps:{}}))});
- return [
-  P('Physics','1st paper',['Physical world and measurement','Vector','Dynamics','Newtonian mechanics','Work, energy and power','Gravitation and gravity','Structural properties of matter','Periodic motion','Waves','Ideal gas and kinetic theory']),
-  P('Physics','2nd paper',['Thermodynamics','Static electricity','Current electricity','Magnetic effects of current','Electromagnetic induction and AC','Geometrical optics','Physical optics','Introduction to modern physics','Atomic model and nuclear physics','Semiconductor and electronics','Astronomy']),
-  P('Chemistry','1st paper',['Laboratory safety','Qualitative chemistry','Periodic properties and chemical bonding','Chemical changes','Vocational chemistry']),
-  P('Chemistry','2nd paper',['Environmental chemistry','Organic chemistry','Quantitative chemistry','Electrochemistry','Economic chemistry']),
-  P('Biology','1st paper',['Cell and its structure','Cell division','Cell chemistry','Microorganisms','Algae and fungi','Bryophyta and pteridophyta','Gymnosperms and angiosperms','Tissue and tissue system','Plant physiology','Plant reproduction','Biotechnology','Organisms and environment']),
-  P('Biology','2nd paper',['Animal diversity and classification','Introduction to animals','Digestion and absorption','Blood and circulation','Respiration and breathing','Waste and excretion','Locomotion and movement','Coordination and control','Continuity of life','Body defence','Genetics and evolution','Animal behaviour']),
-  P('Higher Math','1st paper',['Matrices and determinants','Vectors','Straight lines','Circles','Permutations and combinations','Trigonometric ratios','Associated angles','Functions and graphs','Differentiation','Integration']),
-  P('Higher Math','2nd paper',['Real numbers and inequalities','Linear programming','Complex numbers','Polynomials and equations','Binomial expansion','Conics','Inverse trigonometry and equations','Statics','Motion of particles in a plane','Dispersion and probability']),
-  P('Bangla','1st paper',['Prose','Poetry','Novel','Drama']),
-  P('Bangla','2nd paper',['Grammar','Composition and writing']),
-  P('English','1st paper',['Seen passages','Unseen passages','Vocabulary and cloze','Writing']),
-  P('English','2nd paper',['Grammar','Letters and applications','Paragraphs and compositions']),
-  P('ICT','Full subject',['ICT: world and Bangladesh','Communication systems and networking','Number systems and digital devices','Web design and HTML','Programming language','Database management'])
- ];
-}
 function freshState(){return{
  v:1,created:today(),
- settings:{name:'',place:'Dhaka',lat:23.8103,lng:90.4125,asr:'hanafi',examDate:'',water:8,sleep:8,screen:4,theme:'auto',lastBackup:'',hide:false,pinHash:'',notify:false},
- logs:[],tasks:[],salah:{},vitals:{},subjects:seedStudy(),sessions:[],timer:null,
+ settings:{name:'',place:'Dhaka',lat:23.8103,lng:90.4125,asr:'hanafi',water:8,sleep:8,screen:4,theme:'auto',lastBackup:'',hide:false,pinHash:'',notify:false},
+ logs:[],tasks:[],salah:{},vitals:{},habits:[],
  txns:[],recurring:[],accounts:{bank:{opening:null},bkash:{opening:null},cash:{opening:null},dps:{opening:null}},budgets:{},loans:[],moments:[],stories:[],assets:[]
 }}
 function migrate(o){const f=freshState();for(const k in f)if(o[k]===undefined)o[k]=f[k];o.settings={...f.settings,...o.settings};o.accounts={...f.accounts,...o.accounts};return o}
@@ -610,10 +571,10 @@ const monthNav=()=>`<div class="dnav"><button class="ibtn" data-a="shiftMonth" d
 const bar=(r,cls='')=>`<div class="bar ${cls}"><i style="width:${clamp(r*100,0,100)}%"></i></div>`;
 
 /* ================= render ================= */
-const TABS=[['home','Home'],['day','Day'],['study','Study'],['wallet','Wallet'],['more','More']];
+const TABS=[['home','Home'],['day','Day'],['habits','Habits'],['wallet','Wallet'],['more','More']];
 let lastView=null;
 function render(){
- const v={home:vHome,day:vDay,study:vStudy,wallet:vWallet,more:vMore}[U.tab];
+ const v={home:vHome,day:vDay,habits:vHabits,wallet:vWallet,more:vMore}[U.tab];
  const m=$('#main'),view=U.tab+'/'+(U.more||'');
  m.innerHTML=v();
  const nav=$('#nav');
@@ -666,20 +627,19 @@ function heroHtml(){
   <div class="legend"><span><i class="on"></i>On time</span><span><i class="qaza"></i>Qaza</span><span><i class="miss"></i>Missed</span></div>
  </section>`;
 }
-function studyProgress(list=S.subjects){let d=0,t=0;list.forEach(s=>s.chapters.forEach(c=>{t+=STEPS.length;STEPS.forEach(([k])=>{if(c.steps[k])d++})}));return{d,t,pct:t?Math.round(d/t*100):0}}
 function pulseHtml(){
  const t=today(),m=t.slice(0,7),mt=S.txns.filter(x=>x.date.startsWith(m));
  const out=sum(mt.filter(x=>x.type==='out').map(x=>x.amt)),inc=sum(mt.filter(x=>x.type==='in').map(x=>x.amt));
- const bud=sum(Object.values(S.budgets)),sp=studyProgress(),v=S.vitals[t]||{},g=S.settings;
+ const bud=sum(Object.values(S.budgets)),hb=habitsToday(),v=S.vitals[t]||{},g=S.settings;
  const setA=ACCTS.filter(([k])=>accBal(k)!=null),tm={n:setA.length,v:sum(setA.map(([k])=>accBal(k)))},saved=sum(mt.filter(x=>x.type==='tr'&&x.to==='dps').map(x=>x.amt));
  const br=bud?out/bud:0;
  return `<section class="sec"><div class="pulse">
   <button data-a="tab" data-v="wallet"><span class="k">Spent in ${monthShort(m)}</span><span class="v">${money(out)}</span>${bud?`${bar(br,br>1?'bad':br>.8?'warn':'')}`:`<span class="s">${inc?`${money(inc-out)} left`:'Tap to add expenses'}</span>`}</button>
-  <button data-a="tab" data-v="study"><span class="k">Syllabus</span><span class="v">${sp.pct}<small>%</small></span>${bar(sp.pct/100)}</button>
+  <button data-a="tab" data-v="habits"><span class="k">Habits today</span>${hb.n?`<span class="v">${hb.d}<small> / ${hb.n}</small></span>${bar(hb.d/hb.n,hb.d===hb.n?'':'')}`:`<span class="v"><small>None yet</small></span><span class="s">Tap to add one</span>`}</button>
   <div><span class="k">Water</span><span class="v">${v.water||0}<small> / ${g.water}</small></span><button class="mini" data-a="waterAdd">Add a glass</button></div>
   <button data-a="gotoVitals"><span class="k">Sleep last night</span><span class="v">${v.sleep!=null?`${v.sleep}<small>h</small>`:'<small>Not logged</small>'}</span><span class="s">Goal ${g.sleep}h</span></button>
-  <button data-a="tab" data-v="wallet"><span class="k">Total money</span>${tm.n?`<span class="v">${money(tm.v)}</span><span class="s">${tm.n<4?`${tm.n} of 4 accounts`:'All accounts'}</span>`:`<span class="v"><small>Not set</small></span><span class="s">Add balances in Wallet</span>`}</button>
-  <button data-a="tab" data-v="wallet"><span class="k">Saved in ${monthShort(m)}</span><span class="v">${money(saved)}</span><span class="s">Into DPS / Savings</span></button>
+  <button data-a="gotoAccounts"><span class="k">Total money</span>${tm.n?`<span class="v">${money(tm.v)}</span><span class="s">${tm.n<4?`${tm.n} of 4 accounts`:'All accounts'}</span>`:`<span class="v"><small>Not set</small></span><span class="s">Add balances in Wallet</span>`}</button>
+  <button data-a="gotoAccounts"><span class="k">Saved in ${monthShort(m)}</span><span class="v">${money(saved)}</span><span class="s">Into DPS / Savings</span></button>
  </div></section>`;
 }
 function attentionHtml(){
@@ -756,53 +716,38 @@ function vitalsHtml(){
  </div><p class="small muted" style="margin:10px 4px 0">Screen time comes from your phone's Digital Wellbeing or Screen Time page.</p></section>`;
 }
 
-/* ---------- STUDY ---------- */
-function vStudy(){
- const p=studyProgress(),groups=[...new Set(S.subjects.map(s=>s.group))],w=weekStudy();
- return head('Study','Chapter by chapter.',`<button class="btn sm ghost" data-a="subjNew">${ic('plus')}Subject</button>`)
- +`<section class="panel sov"><div class="line">${p.pct}% of the syllabus done</div><div class="sub">${p.d} of ${p.t} steps across ${S.subjects.reduce((a,s)=>a+s.chapters.length,0)} chapters</div>${bar(p.pct/100)}<p class="pace">${paceText(p)}</p>
-   <label class="examrow"><span>Exam starts</span><input class="field" type="date" value="${S.settings.examDate}" data-change="examDate"></label></section>`
- +`<section class="sec tight">${timerHtml(w)}</section>`
- +`<section class="sec"><div class="sec-h"><h2>Subjects</h2><span class="aside">Read, MCQ, CQ, Revise</span></div><div class="list">${groups.map(groupHtml).join('')||`<p class="empty">No subjects yet.</p>`}</div></section>`;
+/* ---------- HABITS ---------- */
+const HABIT_IDEAS=['Read Quran','Exercise','Read 10 pages','No phone after 11','Wake for Fajr','Drink 8 glasses','Journal','Study 1 hour'];
+const hDone=(h,d)=>!!(h.days&&h.days[d]);
+function hStreak(h,from=today()){let n=0,d=from;if(!hDone(h,d)){d=addDays(d,-1);if(!hDone(h,d))return 0}while(hDone(h,d)&&n<3650){n++;d=addDays(d,-1)}return n}
+function hBest(h){const days=Object.keys(h.days||{}).sort();let best=0,run=0,prev=null;days.forEach(d=>{run=prev&&addDays(prev,1)===d?run+1:1;if(run>best)best=run;prev=d});return best}
+function habitsToday(){const t=today(),list=S.habits.filter(h=>!h.paused);return{n:list.length,d:list.filter(h=>hDone(h,t)).length}}
+function vHabits(){
+ const t=today(),list=S.habits,hb=habitsToday();
+ const week=[...Array(7)].map((_,i)=>addDays(t,i-6));
+ const wk=list.length?Math.round(sum(week.map(d=>list.filter(h=>hDone(h,d)).length))/(week.length*list.length)*100):0;
+ const best=Math.max(0,...list.map(h=>hStreak(h)));
+ const row=h=>{const on=hDone(h,t),st=hStreak(h);return `<div class="row habit ${on?'on':''}"><button class="ck big ${on?'on':''}" data-a="habitTick" data-id="${h.id}" aria-label="${on?'Mark not done':'Mark done'}">${on?ic('check'):''}</button><button class="grow hbody" data-a="habitEdit" data-id="${h.id}"><span class="t">${esc(h.name)}</span><span class="s">${st?`${plural(st,'day')} streak${on?'':' · keep it alive today'}`:'No streak yet'}</span></button><span class="hdots" aria-hidden="true">${week.map(d=>`<i class="${hDone(h,d)?'on':''} ${d===t?'today':''}"></i>`).join('')}</span></div>`};
+ return head('Habits','Small things, every day.',`<button class="btn sm" data-a="habitNew">${ic('plus')}Add</button>`)
+ +(list.length?`<div class="stats"><div><div class="k">Today</div><div class="v">${hb.d}<small style="font-size:13px;color:var(--ink-3)"> / ${hb.n}</small></div></div><div><div class="k">This week</div><div class="v">${wk}%</div></div><div><div class="k">Best streak</div><div class="v">${plural(best,'day')}</div></div></div>
+ <section class="sec tight"><div class="list">${list.map(row).join('')}</div><p class="small muted" style="margin:10px 4px 0">Tap the circle for today. Tap the name to see the month, rename or remove.</p></section>`
+ :`<section class="panel"><p style="font-size:14.5px;line-height:1.65;color:var(--ink-2)">Pick a few things you want to do every day. Tick them off each day and watch the streaks grow.</p><div class="chips" style="margin-top:12px">${HABIT_IDEAS.map(n=>`<button class="chipbtn" data-a="habitAdd" data-name="${esc(n)}">${esc(n)}</button>`).join('')}</div></section>`);
 }
-function paceText(p){
- const t=today(),rem=p.t-p.d;let n=0,first=t;
- S.subjects.forEach(s=>s.chapters.forEach(c=>Object.values(c.steps).forEach(d=>{if(d&&daysBetween(d,t)<14){n++;if(d<first)first=d}})));
- const win=clamp(daysBetween(first,t)+1,7,14);
- if(!p.t)return'Add chapters to start tracking.';
- if(!rem)return'Syllabus complete. Keep revising.';
- if(!n)return'Tick off steps as you go. Your pace and finish date show up here.';
- const rate=n/win,fin=addDays(t,Math.ceil(rem/rate)),r1=x=>x>=10?Math.round(x):+x.toFixed(1);
- let s=`At ${r1(rate)} steps a day, you finish on ${fmtLong(fin)}.`;
- const ex=S.settings.examDate;
- if(ex){const left=daysBetween(t,ex);if(left>0)s+=fin<=ex?` That is before your exam, ${plural(left,'day')} away.`:` To finish before the exam, aim for ${r1(rem/left)} a day.`}
- return s;
-}
-function weekStudy(){const t=today(),by={};let tot=0;S.sessions.forEach(x=>{if(daysBetween(x.date,t)<7){const s=S.subjects.find(y=>y.id===x.sid);const g=s?s.group:'Other';by[g]=(by[g]||0)+x.min;tot+=x.min}});return{by,tot}}
-function elapsed(){const s=Math.max(0,Math.floor((Date.now()-S.timer.start)/1000)),H=Math.floor(s/3600),M=Math.floor(s%3600/60),X=s%60;return H?`${H}:${pad(M)}:${pad(X)}`:`${pad(M)}:${pad(X)}`}
-function timerHtml(w){
- if(S.timer){const s=S.subjects.find(x=>x.id===S.timer.sid);return `<div class="panel timer on"><div><div class="s">Focusing on</div><div class="t">${esc(s?`${s.group}, ${s.paper}`:'Study')}</div></div><div class="clock" id="clock">${elapsed()}</div><button class="btn" data-a="timerStop">${ic('stop')}Stop</button></div>`}
- const max=Math.max(...Object.values(w.by),1);
- return `<div class="panel"><div class="timer"><div class="grow"><div class="t">Focus session</div><div class="s">${w.tot?`${fmtMin(w.tot)} in the last 7 days`:'Time your study to see where the hours go.'}</div></div><button class="btn" data-a="timerStart">${ic('play')}Start</button></div>
-  ${w.tot?`<div class="wk">${Object.entries(w.by).sort((a,b)=>b[1]-a[1]).map(([g,m])=>`<div class="r"><span>${esc(g)}</span>${bar(m/max)}<span>${fmtMin(m)}</span></div>`).join('')}</div>`:''}</div>`;
-}
-function groupHtml(g){
- const subs=S.subjects.filter(s=>s.group===g),p=studyProgress(subs),open=!!U.open[g];
- return `<div class="grp ${open?'open':''}"><button class="row gh" data-a="grp" data-v="${esc(g)}" aria-expanded="${open}"><span class="grow"><span class="t">${esc(g)}</span>${bar(p.pct/100)}</span><span class="pct">${p.pct}%</span>${ic('right','chev')}</button>${open?subs.map(paperHtml).join(''):''}</div>`;
-}
-function paperHtml(s){
- const p=studyProgress([s]),ed=U.edit===s.id;
- return `<div class="paper"><div class="ph2"><span class="t">${esc(s.paper)}</span><span class="small muted">${p.pct}%</span><button class="link" data-a="subjEdit" data-id="${s.id}">${ed?'Done':'Edit'}</button></div>
- ${s.chapters.map((c,i)=>ed?`<div class="ch edit"><input class="field" value="${esc(c.name)}" data-change="chRename" data-s="${s.id}" data-c="${c.id}" aria-label="Chapter name"><button class="ibtn" data-a="chDel" data-s="${s.id}" data-c="${c.id}" aria-label="Delete chapter">${ic('trash')}</button></div>`
-  :`<div class="ch ${STEPS.every(([k])=>c.steps[k])?'full':''}"><div class="nm"><span class="n">${i+1}</span><span>${esc(c.name)}</span></div><div class="steps">${STEPS.map(([k,n])=>`<button data-a="step" data-s="${s.id}" data-c="${c.id}" data-k="${k}" aria-pressed="${!!c.steps[k]}">${n}</button>`).join('')}</div></div>`).join('')}
- ${ed?`<form class="ch add" data-form="chAdd" data-s="${s.id}"><input class="field" name="name" placeholder="New chapter name" autocomplete="off" aria-label="New chapter name"><button class="ibtn" aria-label="Add chapter">${ic('plus')}</button></form><button class="link danger" data-a="subjDel" data-id="${s.id}">Remove ${esc(s.group)}, ${esc(s.paper)}</button>`:''}</div>`;
+function habitSheet(h){
+ if(!h)return openSheet('New habit',`<form class="form" data-form="habit"><label><span class="lbl">Habit</span><input class="field" name="name" placeholder="Like Read Quran" autocomplete="off"></label><div class="chips">${HABIT_IDEAS.filter(n=>!S.habits.some(x=>x.name===n)).map(n=>`<button type="button" class="chipbtn" data-a="habitAdd" data-name="${esc(n)}">${esc(n)}</button>`).join('')}</div><button class="btn block">Add habit</button></form>`,'input[name=name]');
+ const t=today(),m=t.slice(0,7),dim=daysInMonth(m),first=parseYmd(m+'-01').getDay(),cells=[...Array(first)].map(()=>'<i class="pad"></i>').concat([...Array(dim)].map((_,i)=>{const d=`${m}-${pad(i+1)}`;return `<button class="hc ${hDone(h,d)?'on':''} ${d===t?'today':''} ${d>t?'future':''}" data-a="habitTickDay" data-id="${h.id}" data-d="${d}" aria-label="${fmtDate(d)}" ${d>t?'disabled':''}>${i+1}</button>`}));
+ const total=Object.keys(h.days||{}).length,mdone=Object.keys(h.days||{}).filter(d=>d.startsWith(m)).length;
+ openSheet(esc(h.name),`<div class="stats" style="margin-bottom:14px"><div><div class="k">Streak</div><div class="v">${plural(hStreak(h),'day')}</div></div><div><div class="k">Best</div><div class="v">${plural(hBest(h),'day')}</div></div><div><div class="k">${monthShort(m)}</div><div class="v">${mdone}<small style="font-size:13px;color:var(--ink-3)"> / ${new Date().getDate()}</small></div></div></div>
+ <div class="hcal"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>${cells.join('')}</div>
+ <p class="small muted" style="margin:10px 0 14px">Tap a day to fix it. ${plural(total,'day')} done in total.</p>
+ <form class="form" data-form="habit"><input type="hidden" name="id" value="${h.id}"><label><span class="lbl">Name</span><input class="field" name="name" value="${esc(h.name)}" autocomplete="off"></label><button class="btn block">Save</button><button type="button" class="btn danger block" data-a="habitDel" data-id="${h.id}">Remove habit</button></form>`);
 }
 
 /* ---------- WALLET ---------- */
 function vWallet(){
- const tag={spend:'Know where it goes.',ledger:'Who owes what, and when.',report:'The month, in numbers.'}[U.walletSeg];
- const body={spend:spendHtml,ledger:ledgerHtml,report:reportHtml}[U.walletSeg]();
- return head('Wallet',tag,`<button class="ibtn" data-a="hideToggle" aria-label="${S.settings.hide?'Show amounts':'Hide amounts'}">${ic(S.settings.hide?'eyeoff':'eye')}</button>`)+segc('walletSeg',[['spend','Spend'],['ledger','Ledger'],['report','Report']])+body;
+ const tag={spend:'Know where it goes.',accounts:'What you hold, and what repeats.',ledger:'Who owes what, and when.',report:'The month, in numbers.'}[U.walletSeg];
+ const body={spend:spendHtml,accounts:accountsPage,ledger:ledgerHtml,report:reportHtml}[U.walletSeg]();
+ return head('Wallet',tag,`<button class="ibtn" data-a="hideToggle" aria-label="${S.settings.hide?'Show amounts':'Hide amounts'}">${ic(S.settings.hide?'eyeoff':'eye')}</button>`)+segc('walletSeg',[['spend','Spend'],['accounts','Accounts'],['ledger','Ledger'],['report','Report']])+body;
 }
 const monthTx=m=>S.txns.filter(x=>x.date.startsWith(m));
 /* accounts: City Bank, bKash, Cash, DPS are one system. Transfers move money between them and never count as income or expense. */
@@ -812,15 +757,16 @@ function accMove(k){let n=0;S.txns.forEach(x=>{if(x.type==='tr'){if(x.to===k)n+=
 function accBal(k){const a=S.accounts[k];return a&&a.opening!=null?a.opening+accMove(k):null}
 const trLabel=x=>`${accName(x.from)} → ${accName(x.to)}`;
 const trKind=x=>x.to==='dps'?'Savings':'Transfer';
+function accountsPage(){return accountsHtml()+recurringHtml()}
 function accountsHtml(){
  const rows=ACCTS.map(([k,n])=>{const b=accBal(k),o=S.accounts[k]?.opening;
   return `<button class="row" data-a="accEdit" data-k="${k}"><span class="grow"><span class="t">${n}</span><span class="s">${b==null?'Tap to set balance':o<0?`<span style="color:var(--bad)">Missing incoming money, check entries</span>`:`Start ${money(o)}`}</span></span><span class="amt ${b==null?'muted':''}">${b==null?'Set':money(b)}</span></button>`}).join('');
  const set=ACCTS.filter(([k])=>accBal(k)!=null),unset=ACCTS.filter(([k])=>accBal(k)==null).map(a=>a[1]);
  const tot=sum(set.map(([k])=>accBal(k)));
  const loose=S.txns.filter(x=>x.type!=='tr'&&!x.acc).length;
- return `<section class="sec"><div class="sec-h"><h2>Balances now</h2><span class="aside">What you hold today</span></div><div class="list">${rows}
- <div class="row" style="background:var(--surface-2)"><span class="grow"><span class="t">Total money</span><span class="s">${unset.length?`Not counting ${unset.join(', ')}`:'All accounts'}</span></span><span class="amt">${money(tot)}</span></div></div>
- ${loose?`<p class="small muted" style="margin:8px 4px 0">${plural(loose,'entry')} without an account ${loose>1?'are':'is'} left out of balances.</p>`:''}</section>`;
+ return `<section class="sec tight"><div class="sec-h"><h2>Balances now</h2><span class="aside">What you hold today</span></div><div class="list">${rows}
+ <div class="row" style="background:var(--surface-2)"><span class="grow"><span class="t">Total money</span><span class="s">${!set.length?'Set each balance above to see it':unset.length?`Not counting ${unset.join(', ')}`:'All accounts'}</span></span><span class="amt">${money(tot)}</span></div></div>
+ ${loose?`<p class="small muted" style="margin:8px 4px 0">${loose} ${loose===1?'entry':'entries'} without an account ${loose>1?'are':'is'} left out of balances.</p>`:''}</section>`;
 }
 function txFilter(x){
  const f=U.wacc||'main',q=(U.wq||'').trim().toLowerCase();
@@ -835,7 +781,7 @@ function txListHtml(all){
  const hiddenTr=(U.wacc||'main')==='main'?all.filter(x=>x.type==='tr').length:0;
  if(!list.length)return `<p class="empty">${on?'Nothing matches.':`No entries in ${monthShort(U.month)}. Tap + to add one.`}</p>`;
  const byDay={};list.forEach(x=>(byDay[x.date]=byDay[x.date]||[]).push(x));
- const head=on?`<p class="small muted" style="margin:10px 4px 0">${plural(list.length,'entry')} · in ${money(sum(list.filter(x=>x.type==='in').map(x=>x.amt)))} · out ${money(sum(list.filter(x=>x.type==='out').map(x=>x.amt)))}</p>`:'';
+ const head=on?`<p class="small muted" style="margin:10px 4px 0">${list.length} ${list.length===1?'entry':'entries'} · in ${money(sum(list.filter(x=>x.type==='in').map(x=>x.amt)))} · out ${money(sum(list.filter(x=>x.type==='out').map(x=>x.amt)))}</p>`:'';
  const note=hiddenTr?`<button class="trnote" data-a="wf" data-v="tr">${ic('swap')}${plural(hiddenTr,'transfer')} between your accounts hidden. See them</button>`:(U.wacc==='tr'?`<p class="small muted" style="margin:10px 4px 0;line-height:1.55">These only moved your own money from one account to another. None of it is income or spending.</p>`:'');
  return note+head+Object.entries(byDay).map(([d,xs])=>`<div class="dayhead"><span>${dayLabel(d)}</span><span>${money(sum(xs.filter(x=>x.type==='out').map(x=>x.amt)))}</span></div><div class="list">${xs.map(txnRow).join('')}</div>`).join('');
 }
@@ -850,8 +796,6 @@ function spendHtml(){
  return monthNav()+`<div class="sum3"><div><div class="k">Income</div><div class="v">${money(inc)}</div></div><div><div class="k">Spent</div><div class="v">${money(out)}</div></div><div><div class="k">Net</div><div class="v">${money(inc-out)}</div></div></div>
  <p class="small muted" style="margin:8px 4px 0;line-height:1.55">Only real income and spending. Money moved between your own accounts is left out.</p>
  <div class="btnrow"><button class="btn" data-a="txnNew" data-t="out">${ic('plus')}Expense</button><button class="btn ghost" data-a="txnNew" data-t="in">${ic('plus')}Income</button><button class="btn ghost" data-a="txnNew" data-t="tr">${ic('swap')}Transfer</button></div>
- ${accountsHtml()}
- ${recurringHtml()}
  <section class="sec"><div class="sec-h"><h2>Entries</h2></div>
  <div class="wsearch">${ic('search')}<input class="field" type="search" data-input="walletSearch" value="${esc(U.wq||'')}" placeholder="Search notes, categories, amounts" aria-label="Search entries"></div>
  <div class="fchips">${[['main','Income & spending'],...ACCTS.filter(a=>a[0]!=='dps'),['tr','Transfers'],['all','Everything']].map(([v,n])=>`<button data-a="wf" data-v="${v}" aria-pressed="${(U.wacc||'main')===v}">${n}</button>`).join('')}</div>
@@ -960,7 +904,6 @@ function vSettings(){
   <div><span class="lbl">Location for prayer times</span><input class="field" name="place" value="${esc(s.place)}" placeholder="City" aria-label="Place name"><div class="two" style="margin-top:8px"><input class="field" name="lat" value="${s.lat}" inputmode="decimal" aria-label="Latitude" placeholder="Latitude"><input class="field" name="lng" value="${s.lng}" inputmode="decimal" aria-label="Longitude" placeholder="Longitude"></div><button type="button" class="link" data-a="locate">${'Use my current location'}</button></div>
   <div><span class="lbl">Asr time</span><div class="chips"><label><input type="radio" name="asr" value="hanafi" ${s.asr==='hanafi'?'checked':''}><span>Hanafi</span></label><label><input type="radio" name="asr" value="standard" ${s.asr!=='hanafi'?'checked':''}><span>Standard</span></label></div></div>
   <p class="small muted">Today in ${esc(s.place||'your area')}: Fajr ${fmtT(p.fajr)}, Dhuhr ${fmtT(p.dhuhr)}, Asr ${fmtT(p.asr)}, Maghrib ${fmtT(p.maghrib)}, Isha ${fmtT(p.isha)}.</p>
-  <label><span class="lbl">Exam start date</span><input class="field" type="date" name="examDate" value="${s.examDate}"></label>
   <div><span class="lbl">Daily goals</span><div class="two" style="grid-template-columns:1fr 1fr 1fr"><label><span class="small muted">Water, glasses</span><input class="field" type="number" name="water" min="1" max="20" value="${s.water}"></label><label><span class="small muted">Sleep, hours</span><input class="field" type="number" name="sleep" min="3" max="12" step="0.5" value="${s.sleep}"></label><label><span class="small muted">Screen, hours</span><input class="field" type="number" name="screen" min="0.5" max="16" step="0.5" value="${s.screen}"></label></div></div>
   <button class="btn block">Save settings</button>
  </form>
@@ -1108,14 +1051,6 @@ function assetSheet(kind,x){
  <button class="btn block">${x?'Save changes':g?'Add gadget':'Add book'}</button>
  ${x?`<button type="button" class="btn danger block" data-a="assetDel" data-id="${x.id}">Delete</button>`:''}</form>`,x?null:'input[name=name]');
 }
-function subjSheet(){
- const groups=[...new Set(S.subjects.map(s=>s.group))];
- openSheet('Add a subject',`<form class="form" data-form="subjAdd"><label><span class="lbl">Subject</span><input class="field" name="group" list="grps" placeholder="Physics, Statistics" autocomplete="off"><datalist id="grps">${groups.map(g=>`<option value="${esc(g)}">`).join('')}</datalist></label>
- <label><span class="lbl">Paper</span><input class="field" name="paper" placeholder="1st paper" autocomplete="off"></label>
- <label><span class="lbl">Chapters, one per line</span><textarea class="field" name="chapters" placeholder="Chapter one&#10;Chapter two"></textarea></label>
- <button class="btn block">Add subject</button></form>`,'input[name=group]');
-}
-
 /* ================= calendar export ================= */
 function buildIcs(o){
  const L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Orbit//Life//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','X-WR-CALNAME:Orbit'];
@@ -1136,7 +1071,6 @@ let UNDO=null;
 function toast(m,undo){FX.buzz(6);const t=$('#toast');t.innerHTML=esc(m)+(undo?'<button class="tundo" data-a="undo">Undo</button>':'');UNDO=undo||null;t.classList.toggle('act',!!undo);t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>{t.classList.remove('show','act');UNDO=null},undo?5000:2000)}
 function undoable(msg,fn){const snap=JSON.stringify(S);fn();commit();toast(msg,()=>{S=migrate(JSON.parse(snap));applyTheme();commit();toast('Restored.')})}
 const go=(tab,extra={})=>{closeSheet(true);Object.assign(U,{tab},extra);render();scrollTo(0,0)};
-const findS=(sid,cid)=>{const s=S.subjects.find(x=>x.id===sid);return[s,s&&cid?s.chapters.find(c=>c.id===cid):null]};
 const A={
  syncLogin(){window.orbitSync?.login()},
  syncLogout(){if(confirm('Sign out of cloud sync? Your data stays on this device.'))window.orbitSync?.logout()},
@@ -1151,6 +1085,7 @@ const A={
  goSettings(){go('more',{more:'settings'})},
  gotoPlan(){go('day',{daySeg:'plan'})},
  gotoVitals(){go('day',{daySeg:'vitals',date:today()})},
+ gotoAccounts(){go('wallet',{walletSeg:'accounts'})},
  taskToggle(d){const x=S.tasks.find(t=>t.id===d.id);if(x){x.done=!x.done;commit()}},
  taskDel(d){undoable('Task removed.',()=>{S.tasks=S.tasks.filter(t=>t.id!==d.id)})},
  taskMove(d){const x=S.tasks.find(t=>t.id===d.id);if(x){x.date=d.to;commit();toast(d.to===today()?'Moved to today.':'Moved to tomorrow.')}},
@@ -1161,15 +1096,12 @@ const A={
  vit(d){const v=S.vitals[U.date]||(S.vitals[U.date]={});if(v[d.f]==null)v[d.f]=d.f==='sleep'?7:3;else v[d.f]=clamp(+(v[d.f]+ +d.n).toFixed(1),0,24);commit()},
  water(d){const v=S.vitals[U.date]||(S.vitals[U.date]={}),n=+d.n;v.water=v.water===n?n-1:n;commit()},
  waterAdd(){const t=today(),v=S.vitals[t]||(S.vitals[t]={});v.water=(v.water||0)+1;commit();toast(`${plural(v.water,'glass').replace('glasss','glasses')} today.`)},
- grp(d){U.open[d.v]=!U.open[d.v];render()},
- step(d){const[,c]=findS(d.s,d.c);if(!c)return;if(c.steps[d.k])delete c.steps[d.k];else c.steps[d.k]=today();commit()},
- subjEdit(d){U.edit=U.edit===d.id?null:d.id;render()},
- chDel(d){const[s,c]=findS(d.s,d.c);if(!c||!confirm(`Delete the chapter "${c.name}"?`))return;s.chapters=s.chapters.filter(x=>x.id!==c.id);commit()},
- subjDel(d){const[s]=findS(d.id);if(!s||!confirm(`Remove ${s.group}, ${s.paper} and its progress?`))return;S.subjects=S.subjects.filter(x=>x.id!==s.id);U.edit=null;commit()},
- subjNew(){subjSheet()},
- timerStart(){openSheet('What are you studying?',`<div class="list">${S.subjects.map(s=>`<button class="row" data-a="timerGo" data-id="${s.id}"><span class="grow"><span class="t">${esc(s.group)}</span><span class="s">${esc(s.paper)}</span></span>${ic('play','chev')}</button>`).join('')}</div>`)},
- timerGo(d){S.timer={start:Date.now(),sid:d.id};closeSheet();commit()},
- timerStop(){const t=S.timer;if(!t)return;const m=Math.round((Date.now()-t.start)/60000);S.timer=null;if(m>=1){S.sessions.push({id:uid(),date:today(),sid:t.sid,min:m});toast(`${fmtMin(m)} logged.`)}else toast('Under a minute, so it was not logged.');commit()},
+ habitNew(){habitSheet()},
+ habitAdd(d){const n=(d.name||'').trim();if(!n)return;if(S.habits.some(h=>h.name.toLowerCase()===n.toLowerCase()))return toast('That habit is already on your list.');S.habits.push({id:uid(),name:n,days:{},created:today()});closeSheet();commit();toast('Habit added.')},
+ habitEdit(d){const h=S.habits.find(x=>x.id===d.id);if(h)habitSheet(h)},
+ habitTick(d){const h=S.habits.find(x=>x.id===d.id);if(!h)return;const t=today();h.days=h.days||{};if(h.days[t])delete h.days[t];else h.days[t]=1;commit();if(h.days[t]){const st=hStreak(h);if(st>1&&st%7===0)toast(`${plural(st,'day')} streak. Keep going.`)}},
+ habitTickDay(d){const h=S.habits.find(x=>x.id===d.id);if(!h||d.d>today())return;h.days=h.days||{};if(h.days[d.d])delete h.days[d.d];else h.days[d.d]=1;save();habitSheet(h);render()},
+ habitDel(d){closeSheet();undoable('Habit removed.',()=>{S.habits=S.habits.filter(h=>h.id!==d.id)})},
  txnNew(d){txnSheet(d.t)},
  txnEdit(d){const x=S.txns.find(t=>t.id===d.id);if(x)txnSheet(x.type,x)},
  txnDel(d){closeSheet();undoable('Entry deleted.',()=>{S.txns=S.txns.filter(x=>x.id!==d.id)})},
@@ -1195,7 +1127,7 @@ const A={
  lockKey(d){LOCK.key(d.v)},
  lockForgot(){LOCK.forgot()},
  accEdit(d){accSheet(d.k)},
- accClear(d){if(!confirm('Clear this balance?'))return;S.accounts[d.k]={opening:null};closeSheet();commit();toast('Balance cleared.')},
+ accClear(d){closeSheet();undoable('Balance cleared.',()=>{S.accounts[d.k]={opening:null}})},
  more(d){U.more=d.v||null;U.q='';render();scrollTo(0,0)},
  momentDel(d){undoable('Moment removed.',()=>{S.moments=S.moments.filter(x=>x.id!==d.id)})},
  storyNew(){storySheet()},
@@ -1217,22 +1149,19 @@ const F={
  qtask(d){const text=(d.text||'').trim();if(!text)return toast('Type the task first.');const date=d.when==='tomorrow'?addDays(today(),1):today();S.tasks.push({id:uid(),date,text,done:false,ts:Date.now()});closeSheet();commit();toast(d.when==='tomorrow'?'Added for tomorrow.':'Added for today.')},
  qmoment(d,f){const text=(d.text||'').trim();if(!text)return;S.moments.push({id:uid(),date:d.date||today(),text,ts:Date.now()});closeSheet();commit();toast('Kept.')},
  rec(d){const amt=Math.round(parseFloat(d.amt)),day=clamp(parseInt(d.day)||1,1,31);if(!(amt>0))return toast('Enter an amount above zero.');if(d.type==='tr'&&d.from===d.to)return toast('Pick two different accounts.');const o={id:d.id||uid(),type:d.type,amt,day,note:(d.note||'').trim()};if(d.type==='tr'){o.from=d.from;o.to=d.to}else{o.cat=d.cat;o.acc=d.acc;if(d.type==='in'&&!INC_CATS.includes(o.cat))o.cat='Other';if(d.type==='out'&&!EXP_CATS.includes(o.cat))o.cat='Other'}const i=S.recurring.findIndex(r=>r.id===o.id);if(i>=0)S.recurring[i]=o;else S.recurring.push(o);closeSheet();commit();toast(d.id?'Saved.':'Monthly item added.')},
- pin(d,f){const mode=f.dataset.mode;(async()=>{if(mode==='set'){if(!/^\d{4}$/.test(d.p1||''))return toast('Use exactly 4 digits.');if(d.p1!==d.p2)return toast('The two PINs do not match.');S.settings.pinHash=await pinHash(d.p1);closeSheet();commit();toast('App lock is on.')}else{if(await pinHash(d.p1||'')!==S.settings.pinHash){FX.buzz(30);return toast('Wrong PIN.')}S.settings.pinHash='';closeSheet();commit();toast('App lock is off.')}})()},
+ pin(d,f){const mode=f.dataset.mode;(async()=>{if(mode==='set'){if(!/^\d{4}$/.test(d.p1||''))return toast('Use exactly 4 digits.');if(d.p1!==d.p2)return toast('The two PINs do not match.');S.settings.pinHash=await pinHash(d.p1);try{localStorage.setItem('orbit:lock','1')}catch(e){}closeSheet();commit();toast('App lock is on.')}else{if(await pinHash(d.p1||'')!==S.settings.pinHash){FX.buzz(30);return toast('Wrong PIN.')}S.settings.pinHash='';try{localStorage.setItem('orbit:lock','0')}catch(e){}closeSheet();commit();toast('App lock is off.')}})()},
  acc(d){const v=Math.round(parseFloat(d.bal));if(!Number.isFinite(v))return toast('Enter a number.');S.accounts[d.k]={opening:v-accMove(d.k)};closeSheet();commit();toast('Balance saved.')},
  txn(d){const amt=Math.round(parseFloat(d.amt));if(!(amt>0))return toast('Enter an amount above zero.');const o={id:d.id||uid(),type:d.type,amt,cat:d.type==='tr'?'Transfer':(d.cat||'Other'),note:(d.note||'').trim(),date:d.date||today(),ts:Date.now()};if(d.type==='tr'){if(d.from===d.to)return toast('Pick two different accounts.');o.from=d.from;o.to=d.to;S.settings.lastTr={from:d.from,to:d.to}}else if(d.acc){o.acc=d.acc;S.settings.lastAcc=d.acc}const i=S.txns.findIndex(x=>x.id===d.id);if(i>=0){o.ts=S.txns[i].ts;S.txns[i]=o}else S.txns.push(o);closeSheet();commit();toast(d.id?'Changes saved.':d.type==='in'?'Income added.':d.type==='tr'?'Transfer added.':'Expense added.')},
  loan(d){const amt=parseFloat(d.amt),person=(d.person||'').trim();if(!person)return toast('Add the person\'s name.');if(!(amt>0))return toast('Enter an amount above zero.');const ex=S.loans.find(x=>x.id===d.id),o={dir:d.dir,person,amt,date:d.date||today(),due:d.due||'',note:(d.note||'').trim()};if(ex)Object.assign(ex,o);else S.loans.push({id:uid(),...o,paid:[],closed:false});closeSheet();commit();toast(ex?'Changes saved.':'Entry saved.')},
  repay(d,f){const l=S.loans.find(x=>x.id===f.dataset.id),a=parseFloat(d.amt);if(!l||!(a>0))return toast('Enter an amount above zero.');l.paid.push({date:d.date||today(),amt:a});if(rem(l)<=0)l.closed=true;closeSheet();commit();toast(l.closed?'Settled in full.':'Repayment recorded.')},
  budgets(d){S.budgets={};EXP_CATS.forEach(c=>{const v=parseFloat(d['b_'+c]);if(v>0)S.budgets[c]=v});closeSheet();commit();toast('Limits saved.')},
- chAdd(d,f){const[s]=findS(f.dataset.s),n=(d.name||'').trim();if(!s||!n)return;s.chapters.push({id:uid(),name:n,steps:{}});commit();refocus(`form[data-form=chAdd][data-s="${s.id}"] input`)},
- subjAdd(d){const g=(d.group||'').trim(),p=(d.paper||'').trim()||'Full subject';if(!g)return toast('Add a subject name.');S.subjects.push({id:uid(),group:g,paper:p,chapters:(d.chapters||'').split('\n').map(x=>x.trim()).filter(Boolean).map(n=>({id:uid(),name:n,steps:{}}))});U.open[g]=true;closeSheet();commit();toast('Subject added.')},
+ habit(d){const n=(d.name||'').trim();if(!n)return toast('Give the habit a name.');if(d.id){const h=S.habits.find(x=>x.id===d.id);if(h)h.name=n;closeSheet();commit();toast('Saved.')}else A.habitAdd({name:n})},
  story(d){const title=(d.title||'').trim(),body=(d.body||'').trim();if(!title||!body)return toast('Add a title and the story.');const o={id:d.id||uid(),title,date:d.date||today(),tags:(d.tags||'').split(',').map(t=>t.trim()).filter(Boolean),body,updated:Date.now()};const i=S.stories.findIndex(x=>x.id===d.id);if(i>=0)S.stories[i]=o;else S.stories.push(o);closeSheet();commit();toast('Story saved.')},
  asset(d){const name=(d.name||'').trim();if(!name)return toast(d.kind==='gadget'?'Add a name.':'Add the title.');const o={id:d.id||uid(),kind:d.kind,name,sub:(d.sub||'').trim(),date:d.date||'',price:parseFloat(d.price)||0,warranty:d.warranty||'',status:d.status||'',lentTo:(d.lentTo||'').trim(),note:(d.note||'').trim()};const i=S.assets.findIndex(x=>x.id===d.id);if(i>=0)S.assets[i]=o;else S.assets.push(o);closeSheet();commit();toast(i>=0?'Changes saved.':'Added to your vault.')},
- settings(d){const s=S.settings,lat=parseFloat(d.lat),lng=parseFloat(d.lng);if(!(Math.abs(lat)<=65&&Math.abs(lng)<=180))return toast('Enter a valid latitude and longitude.');Object.assign(s,{name:(d.name||'').trim(),place:(d.place||'').trim()||'Custom',lat,lng,asr:d.asr||'hanafi',examDate:d.examDate||'',water:clamp(parseInt(d.water)||8,1,20),sleep:clamp(parseFloat(d.sleep)||8,3,12),screen:clamp(parseFloat(d.screen)||4,.5,16)});commit();toast('Settings saved.')},
+ settings(d){const s=S.settings,lat=parseFloat(d.lat),lng=parseFloat(d.lng);if(!(Math.abs(lat)<=65&&Math.abs(lng)<=180))return toast('Enter a valid latitude and longitude.');Object.assign(s,{name:(d.name||'').trim(),place:(d.place||'').trim()||'Custom',lat,lng,asr:d.asr||'hanafi',water:clamp(parseInt(d.water)||8,1,20),sleep:clamp(parseFloat(d.sleep)||8,3,12),screen:clamp(parseFloat(d.screen)||4,.5,16)});commit();toast('Settings saved.')},
  ics(d){const o={prayers:!!d.prayers,loans:!!d.loans,warranty:!!d.warranty};if(!o.prayers&&!o.loans&&!o.warranty)return toast('Choose at least one kind of reminder.');download(`orbit-reminders-${today()}.ics`,buildIcs(o),'text/calendar');toast('Calendar file downloaded.')}
 };
 const C={
- examDate(el){S.settings.examDate=el.value;commit()},
- chRename(el){const[,c]=findS(el.dataset.s,el.dataset.c),v=el.value.trim();if(c&&v){c.name=v;save()}},
  importData(el){const file=el.files[0];el.value='';if(!file)return;file.text().then(txt=>{let o;try{o=JSON.parse(txt)}catch(e){return toast('That file is not an Orbit backup.')}if(!o||!o.settings||!Array.isArray(o.tasks))return toast('That file is not an Orbit backup.');if(!confirm('Replace everything on this device with this backup?'))return;S=migrate(o);applyTheme();commit();toast('Backup restored.')})}
 };
 const Crec={recKind(el){el.form.dataset.kind=el.value}};Object.assign(C,Crec);
@@ -1358,7 +1287,7 @@ const LOCK={
  show(){if(!this.on())return;const el=$('#lock');this.buf='';this.dots();
   el.querySelector('.lk-pad').innerHTML=[1,2,3,4,5,6,7,8,9,'forgot',0,'del'].map(k=>k==='forgot'?(window.orbitSync?.state?.user?'<button class="lk-t" data-a="lockForgot">Forgot?</button>':'<span></span>'):k==='del'?`<button class="lk-k lk-t" data-a="lockKey" data-v="del" aria-label="Delete">⌫</button>`:`<button class="lk-k" data-a="lockKey" data-v="${k}">${k}</button>`).join('');
   el.hidden=false;document.body.classList.add('locked');requestAnimationFrame(()=>el.classList.add('open'))},
- hide(){const el=$('#lock');el.classList.remove('open');el.classList.add('out');setTimeout(()=>{el.hidden=true;el.classList.remove('out')},380);document.body.classList.remove('locked')},
+ hide(){try{localStorage.setItem('orbit:lock',S&&S.settings.pinHash?'1':'0')}catch(e){}const el=$('#lock');el.classList.remove('open');el.classList.add('out');setTimeout(()=>{el.hidden=true;el.classList.remove('out')},380);document.body.classList.remove('locked')},
  dots(){$('#lock').querySelectorAll('.lk-dots i').forEach((d,i)=>d.classList.toggle('on',i<this.buf.length))},
  async key(v){if(v==='del'){this.buf=this.buf.slice(0,-1);return this.dots()}if(this.buf.length>=4)return;this.buf+=v;this.dots();FX.buzz(4);
   if(this.buf.length===4){const ok=await pinHash(this.buf)===S.settings.pinHash;if(ok){FX.buzz(12);this.hide()}else{const d=$('#lock .lk-dots');d.classList.remove('shake');void d.offsetWidth;d.classList.add('shake');FX.buzz(40);setTimeout(()=>{this.buf='';this.dots()},350)}}},
@@ -1414,12 +1343,10 @@ let lastDay=today();
  applyTheme();render();
  if(!saved)save();
  window.orbitApp.ready=true;window.dispatchEvent(new Event('orbit-ready'));
+ try{localStorage.setItem('orbit:lock',S.settings.pinHash?'1':'0')}catch(e){}
  LOCK.show();setTimeout(()=>NOTIFY.check(),3000);
  try{navigator.storage?.persist?.()}catch(e){}
  if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
- setInterval(()=>{
-  if(S.timer){const c=$('#clock');if(c)c.textContent=elapsed()}
- },1000);
  setInterval(()=>{
   const busy=sheetOpen()||(document.activeElement&&/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName));
   if(today()!==lastDay){lastDay=today();U.date=today();if(!busy)render();return}
